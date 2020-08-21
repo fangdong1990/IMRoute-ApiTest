@@ -82,7 +82,7 @@ class QuitGroup(unittest.TestCase):
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
-        print(">>>群成员list：",redis_.hget_(gb+self.gid, "members"))
+        print(">>>群成员list：", redis_.hget_(gb+self.gid, "members"))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ok", r.json()['msg']
         assert uid_list[1] not in eval(redis_.hget_(gb+self.gid, "members")), [uid_list[1], uid_list, redis_.hget_(gb+self.gid, "members")]    # 校验该群员已经退群
