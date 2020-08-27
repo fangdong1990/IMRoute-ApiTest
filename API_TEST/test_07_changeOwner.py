@@ -1,7 +1,7 @@
 import unittest
 import requests
 import json
-from pyBase import redis_im_handle,config_action
+from pyBase import redis_im_handle,config_action,get_md5
 import time
 
 
@@ -11,9 +11,6 @@ import time
 ownerId = "dqy0501"
 uid_list = [{"uid": "dqy0506"}, {"uid": "dqy0502"}, {"uid": "dqy0503"}, {"uid": "dqy0504"}, {"uid": "dqy0505", "alias": "change_owner"}]
 add_uid = [{"uid": "dqy0510"}]
-
-# 入参格式json
-headers = {"Content-Type": "application/json"}  # 指定提交的是json
 
 # redis数据存贮
 gb = "td_group:g_id:"                  # 群标识
@@ -43,8 +40,19 @@ class ChangeOwner(unittest.TestCase):
         cls.get_group_info = api_re.get("api_path", "get_group_info")
         cls.send_msg = api_re.get("api_path", "send_msg")
 
+        #  获取header_key数据
+        cls.key = api_re.get("header_key", "key")
+
         """redis存储验证：td_group:g_id+gid 成功存贮：members、owner、createAt"""
         code_url = cls.url_common + cls.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+cls.key)
+                   }
+        print(">>>请求头：", headers)
         code_data = {
             'ownerId': ownerId,
             'name': ownerId+"change_owner",
@@ -75,6 +83,14 @@ class ChangeOwner(unittest.TestCase):
     def test_01_changeOwner(self):
         """通过性验证：所有参数正常传入"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         st_mem = eval(redis_.hget_(gb + self.gid, "members"))
         print('>>>更换群主前的群主信息', redis_.hget_(gb + self.gid, "owner"))
         print('>>>请求地址：', code_url)
@@ -116,6 +132,14 @@ class ChangeOwner(unittest.TestCase):
     def test_04_changeOwner(self):
         """入参验证：ownerId字段缺失"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': self.gid,
@@ -129,6 +153,14 @@ class ChangeOwner(unittest.TestCase):
     def test_05_changeOwner(self):
         """入参验证：gid字段缺失"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': uid_list[1]["uid"],
@@ -142,6 +174,14 @@ class ChangeOwner(unittest.TestCase):
     def test_06_changeOwner(self):
         """入参验证：targetOwnerId字段缺失"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': uid_list[1]["uid"],
@@ -155,6 +195,14 @@ class ChangeOwner(unittest.TestCase):
     def test_07_changeOwner(self):
         """入参验证：ownerId入参为空''"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': '',
@@ -169,6 +217,14 @@ class ChangeOwner(unittest.TestCase):
     def test_08_changeOwner(self):
         """入参验证：gid入参为空''"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': uid_list[1]["uid"],
@@ -183,6 +239,14 @@ class ChangeOwner(unittest.TestCase):
     def test_09_changeOwner(self):
         """入参验证：targetOwnerId入参为空''"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': uid_list[1]["uid"],
@@ -197,6 +261,14 @@ class ChangeOwner(unittest.TestCase):
     def test_A0_changeOwner(self):
         """入参验证：ownerId非群主"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': uid_list[3]["uid"],
@@ -211,6 +283,14 @@ class ChangeOwner(unittest.TestCase):
     def test_A1_changeOwner(self):
         """入参验证：gid无效"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': uid_list[1]["uid"],
@@ -225,6 +305,14 @@ class ChangeOwner(unittest.TestCase):
     def test_A2_changeOwner(self):
         """入参验证：targetOwnerId非群成员"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': uid_list[1]["uid"],
@@ -239,6 +327,14 @@ class ChangeOwner(unittest.TestCase):
     def test_A3_changeOwner(self):
         """业务逻辑验证：更换的群主带备注"""
         code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         st_owner = redis_.hget_(gb+self.gid, "owner")
         print(">>>更换群主前的onwer信息：", st_owner)
         print(">>>更换群主为：", uid_list[4])
@@ -259,6 +355,14 @@ class ChangeOwner(unittest.TestCase):
     def test_A4_changeOwner(self):
         """业务逻辑验证：更新群主成功后可添加人员"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print(">>>群成员列表", redis_.hget_(gb+self.gid, "members"))
         print('>>>请求地址：', code_url)
         code_data = {
@@ -275,6 +379,14 @@ class ChangeOwner(unittest.TestCase):
     def test_A5_changeOwner(self):
         """业务逻辑验证：更新群主成功后可删除人员"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': uid_list[4]["uid"],
@@ -290,6 +402,14 @@ class ChangeOwner(unittest.TestCase):
     def test_A6_changeOwner(self):
         """业务逻辑验证：更新群主成功后可删除群"""
         code_url = self.url_common + self.del_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': uid_list[4]["uid"],

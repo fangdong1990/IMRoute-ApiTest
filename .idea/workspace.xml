@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cb0b7375-bbd7-4a11-b848-69f9a2ef1497" name="Default Changelist" comment="" />
+    <list default="true" id="cb0b7375-bbd7-4a11-b848-69f9a2ef1497" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/pyBase/get_md5.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API.ini" beforeDir="false" afterPath="$PROJECT_DIR$/API.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_TEST/test_01_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/API_TEST/test_01_login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_TEST/test_02_createGroup.py" beforeDir="false" afterPath="$PROJECT_DIR$/API_TEST/test_02_createGroup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_TEST/test_03_addMember.py" beforeDir="false" afterPath="$PROJECT_DIR$/API_TEST/test_03_addMember.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_TEST/test_04_delGroup.py" beforeDir="false" afterPath="$PROJECT_DIR$/API_TEST/test_04_delGroup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_TEST/test_05_delMember.py" beforeDir="false" afterPath="$PROJECT_DIR$/API_TEST/test_05_delMember.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_TEST/test_06_quitGroup.py" beforeDir="false" afterPath="$PROJECT_DIR$/API_TEST/test_06_quitGroup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_TEST/test_07_changeOwner.py" beforeDir="false" afterPath="$PROJECT_DIR$/API_TEST/test_07_changeOwner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_TEST/test_08_getGroupInfo.py" beforeDir="false" afterPath="$PROJECT_DIR$/API_TEST/test_08_getGroupInfo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_TEST/test_09_sendMsg.py" beforeDir="false" afterPath="$PROJECT_DIR$/API_TEST/test_09_sendMsg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PARAMETER.ini" beforeDir="false" afterPath="$PROJECT_DIR$/PARAMETER.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 11_38_20IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 11_38_54IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 11_39_59IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 11_45_48IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 11_47_14IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 11_48_22IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 12_45_20IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 13_45_00IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 13_58_14IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 14_32_22IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 14_40_14IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-21 15_33_36IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/2020-08-24 09_38_18IM-API自动化测试报告_TestReport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,61 +40,93 @@
     <session id="1600409191">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
-          <entry key="project.open.time.0" value="1" />
+          <entry key="project.closed" value="4" />
+          <entry key="project.open.time.0" value="3" />
+          <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gitignore" value="2" />
-          <entry key="html" value="2" />
-          <entry key="ini" value="5" />
+          <entry key="html" value="11" />
+          <entry key="ini" value="8" />
           <entry key="md" value="2" />
-          <entry key="py" value="10" />
+          <entry key="py" value="34" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Git file" value="2" />
-          <entry key="HTML" value="2" />
-          <entry key="Ini" value="5" />
+          <entry key="HTML" value="11" />
+          <entry key="Ini" value="8" />
           <entry key="Markdown" value="2" />
-          <entry key="Python" value="10" />
+          <entry key="Python" value="34" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="1" />
-          <entry key="ini" value="11" />
-          <entry key="py" value="16" />
+          <entry key="ini" value="36" />
+          <entry key="py" value="574" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Git file" value="1" />
-          <entry key="Ini" value="11" />
-          <entry key="Python" value="16" />
+          <entry key="Ini" value="36" />
+          <entry key="Python" value="574" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pyBase/send_email.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+            <state relative-caret-position="114">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
               <folding>
-                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#23#38#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/API_TEST/test_08_getGroupInfo.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="361">
+              <caret line="144" column="33" selection-start-line="144" selection-start-column="33" selection-end-line="144" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/API_TEST/test_09_sendMsg.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="513">
+              <caret line="90" column="72" lean-forward="true" selection-start-line="90" selection-start-column="72" selection-end-line="90" selection-end-column="72" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -75,21 +135,30 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/API.ini" />
         <option value="$PROJECT_DIR$/DB.ini" />
         <option value="$PROJECT_DIR$/pyBase/config_action.py" />
-        <option value="$PROJECT_DIR$/run.py" />
-        <option value="$PROJECT_DIR$/PARAMETER.ini" />
         <option value="$PROJECT_DIR$/pyBase/send_email.py" />
+        <option value="$PROJECT_DIR$/PARAMETER.ini" />
+        <option value="$PROJECT_DIR$/pyBase/get_md5.py" />
+        <option value="$PROJECT_DIR$/API_TEST/test_01_login.py" />
+        <option value="$PROJECT_DIR$/API.ini" />
+        <option value="$PROJECT_DIR$/run.py" />
+        <option value="$PROJECT_DIR$/API_TEST/test_02_createGroup.py" />
+        <option value="$PROJECT_DIR$/API_TEST/test_03_addMember.py" />
+        <option value="$PROJECT_DIR$/API_TEST/test_04_delGroup.py" />
+        <option value="$PROJECT_DIR$/API_TEST/test_05_delMember.py" />
         <option value="$PROJECT_DIR$/API_TEST/test_06_quitGroup.py" />
+        <option value="$PROJECT_DIR$/API_TEST/test_07_changeOwner.py" />
+        <option value="$PROJECT_DIR$/API_TEST/test_08_getGroupInfo.py" />
+        <option value="$PROJECT_DIR$/API_TEST/test_09_sendMsg.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="310" />
-    <option name="y" value="79" />
-    <option name="width" value="1506" />
-    <option name="height" value="1006" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="300" />
+    <option name="y" value="91" />
+    <option name="width" value="1368" />
+    <option name="height" value="799" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -97,6 +166,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -114,11 +184,15 @@
               <item name="IMRoute-ApiTest" type="462c0819:PsiDirectoryNode" />
               <item name="pyBase" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="IMRoute-ApiTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IMRoute-ApiTest" type="462c0819:PsiDirectoryNode" />
+              <item name="report" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -137,7 +211,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.send_email">
+  <component name="RunManager" selected="Python.run">
+    <configuration name="get_md5" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="IMRoute-ApiTest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pyBase" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pyBase/get_md5.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="run" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="IMRoute-ApiTest" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -180,14 +275,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests for test_01_login.Login.test_A5_login" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="IMRoute-ApiTest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/API_TEST" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_01_login.Login.test_A5_login&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.run" />
       <item itemvalue="Python.send_email" />
+      <item itemvalue="Python.get_md5" />
+      <item itemvalue="Python tests.Unittests for test_01_login.Login.test_A5_login" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.send_email" />
         <item itemvalue="Python.run" />
+        <item itemvalue="Python tests.Unittests for test_01_login.Login.test_A5_login" />
+        <item itemvalue="Python.get_md5" />
+        <item itemvalue="Python.send_email" />
       </list>
     </recent_temporary>
   </component>
@@ -204,21 +317,27 @@
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="Unittests_for_test_01_login_Login_test_A5_login - 2020.08.27 at 10h 41m 43s.xml">
+      <configuration name="Unittests for test_01_login.Login.test_A5_login" configurationId="tests" />
+    </history-entry>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="310" y="79" width="1506" height="1006" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.36171663" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26448894" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.27784157" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.28121606" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.2870264" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.20304017" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -241,42 +360,13 @@
     <entry file="file://$PROJECT_DIR$/report/2020-08-21 11_38_54IM-API自动化测试报告_TestReport.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/API_TEST/test_01_login.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DB.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/report/2020-08-21 11_39_59IM-API自动化测试报告_TestReport.html">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/run.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
-          <folding>
-            <element signature="e#23#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pyBase/redis_im_handle.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
           <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -284,33 +374,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
           <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="40" lean-forward="true" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PARAMETER.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API_TEST/test_06_quitGroup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="79" column="38" lean-forward="true" selection-start-line="79" selection-start-column="38" selection-end-line="79" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -324,9 +387,161 @@
     <entry file="file://$PROJECT_DIR$/pyBase/send_email.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
-          <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/2020-08-27 08_42_59IM-API自动化测试报告_TestReport.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/2020-08-27 09_51_46IM-API自动化测试报告_TestReport.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/2020-08-27 10_31_32IM-API自动化测试报告_TestReport.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/2020-08-27 10_40_15IM-API自动化测试报告_TestReport.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/2020-08-27 10_41_47IM-API自动化测试报告_TestReport.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/2020-08-27 10_46_13IM-API自动化测试报告_TestReport.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/2020-08-27 10_46_45IM-API自动化测试报告_TestReport.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyBase/get_md5.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" column="3" lean-forward="true" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PARAMETER.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="34" lean-forward="true" selection-start-line="1" selection-start-column="34" selection-end-line="1" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/2020-08-27 10_53_52IM-API自动化测试报告_TestReport.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="46" lean-forward="true" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/2020-08-27 11_05_16IM-API自动化测试报告_TestReport.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API_TEST/test_01_login.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="28" column="33" lean-forward="true" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API_TEST/test_03_addMember.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="344" column="33" selection-start-line="344" selection-start-column="33" selection-end-line="344" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API_TEST/test_02_createGroup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="73" column="19" lean-forward="true" selection-start-line="72" selection-end-line="79" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API_TEST/test_04_delGroup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3990">
+          <caret line="237" column="33" selection-start-line="237" selection-start-column="33" selection-end-line="237" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API_TEST/test_05_delMember.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="307" column="33" selection-start-line="307" selection-start-column="33" selection-end-line="307" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API_TEST/test_06_quitGroup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="48" column="19" lean-forward="true" selection-start-line="47" selection-end-line="54" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="e#23#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API_TEST/test_07_changeOwner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="405" column="19" lean-forward="true" selection-start-line="404" selection-end-line="411" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API_TEST/test_08_getGroupInfo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="144" column="33" selection-start-line="144" selection-start-column="33" selection-end-line="144" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API_TEST/test_09_sendMsg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="90" column="72" lean-forward="true" selection-start-line="90" selection-start-column="72" selection-end-line="90" selection-end-column="72" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>

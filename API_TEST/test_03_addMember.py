@@ -1,7 +1,7 @@
 import unittest
 import requests
 import json
-from pyBase import redis_im_handle, config_action
+from pyBase import redis_im_handle, config_action, get_md5
 import time
 
 
@@ -14,9 +14,6 @@ add_uids1 = [{"uid": "dqy0106"}]
 add_uids3 = [{"uid": "dqy0109"}, {"uid": "dqy0107"}, {"uid": "dqy0108", "alias": "add_member"}]
 add_uids4 = [{"uid": "dqy0102"}, {"uid": "dqy0110"}, {"uid": "dqy0111", "alias": "add_member"}]
 
-
-# 入参格式json
-headers = {"Content-Type": "application/json"}  # 指定提交的是json
 
 # redis数据存贮
 gb = "td_group:g_id:"                  # 群标识
@@ -46,8 +43,19 @@ class AddMember(unittest.TestCase):
         cls.get_group_info = api_re.get("api_path", "get_group_info")
         cls.send_msg = api_re.get("api_path", "send_msg")
 
+        #  获取header_key数据
+        cls.key = api_re.get("header_key", "key")
+
         """redis存储验证：td_group:g_id+gid 成功存贮：members、owner、createAt"""
         code_url = cls.url_common + cls.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+cls.key)
+                   }
+        print(">>>请求头：", headers)
         code_data = {
             'ownerId': ownerId,
             'name': ownerId+"_AddMember",
@@ -78,6 +86,14 @@ class AddMember(unittest.TestCase):
     def test_01_addMember(self):
         """通过性验证：正常入参：ownerId、gid、uids"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -113,6 +129,14 @@ class AddMember(unittest.TestCase):
     def test_04_addMember(self):
         """业务逻辑验证：一次添加多人，部分用户携带alias字段"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -130,6 +154,14 @@ class AddMember(unittest.TestCase):
     def test_05_addMember(self):
         """业务逻辑验证：即将添加人员在当前群全部已存在"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         st_uids =eval(redis_.hget_(gb + self.gid, "members"))
         print(">>>初始群成员：", st_uids)
         print('>>>请求地址：', code_url)
@@ -148,6 +180,14 @@ class AddMember(unittest.TestCase):
     def test_06_addMember(self):
         """业务逻辑验证：即将添加人员在当前群部分已存在"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         st_uids =eval(redis_.hget_(gb + self.gid, "members"))
         print(">>>初始群成员：", st_uids)
         print('>>>请求地址：', code_url)
@@ -166,6 +206,14 @@ class AddMember(unittest.TestCase):
     def test_07_addMember(self):
         """入参验证：ownerId字段缺失"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': self.gid,
@@ -179,6 +227,14 @@ class AddMember(unittest.TestCase):
     def test_08_addMember(self):
         """入参验证：gid字段缺失"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -192,6 +248,14 @@ class AddMember(unittest.TestCase):
     def test_09_addMember(self):
         """入参验证：uids字段缺失"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -205,6 +269,14 @@ class AddMember(unittest.TestCase):
     def test_A0_addMember(self):
         """入参验证：ownerId入参为空''"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': '',
@@ -219,6 +291,14 @@ class AddMember(unittest.TestCase):
     def test_A1_addMember(self):
         """入参验证：gid入参为空''"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -233,6 +313,14 @@ class AddMember(unittest.TestCase):
     def test_A2_addMember(self):
         """入参验证：uids入参为空[] """
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -247,6 +335,14 @@ class AddMember(unittest.TestCase):
     def test_A3_addMember(self):
         """入参验证：gid无效''"""
         code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,

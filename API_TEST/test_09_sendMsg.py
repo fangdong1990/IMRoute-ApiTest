@@ -1,7 +1,7 @@
 import unittest
 import requests
 import json
-from pyBase import redis_im_handle, config_action
+from pyBase import redis_im_handle, config_action,get_md5
 import time
 
 
@@ -11,10 +11,6 @@ import time
 ownerId = "dqy0701"
 uid_list = [{"uid": "dqy0705"}, {"uid": "dqy0702"}, {"uid": "dqy0703"}, {"uid": "dqy0704"},
 {"uid": "dqy0706"}, {"uid": "dqy0707"}, {"uid": "dqy0708"}, {"uid": "dqy0709"}]
-
-
-# 入参格式json
-headers = {"Content-Type": "application/json"}  # 指定提交的是json
 
 # redis数据存贮
 gb = "td_group:g_id:"                  # 群标识
@@ -44,8 +40,19 @@ class SendMsg(unittest.TestCase):
         cls.get_group_info = api_re.get("api_path", "get_group_info")
         cls.send_msg = api_re.get("api_path", "send_msg")
 
+        #  获取header_key数据
+        cls.key = api_re.get("header_key", "key")
+
         """redis存储验证：td_group:g_id+gid 成功存贮：members、owner、createAt"""
         code_url = cls.url_common + cls.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+cls.key)
+                   }
+        print(">>>请求头：", headers)
         code_data = {
             'ownerId': ownerId,
             'name': ownerId+"_AddMember",
@@ -76,6 +83,14 @@ class SendMsg(unittest.TestCase):
     def test_01_sendMsg(self):
         """通过性验证：所有参数正常传入group0、type1"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -96,6 +111,14 @@ class SendMsg(unittest.TestCase):
     def test_02_sendMsg(self):
         """入参验证：from_uid字段缺失"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -113,6 +136,14 @@ class SendMsg(unittest.TestCase):
     def test_03_sendMsg(self):
         """入参验证：to_uid字段缺失"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -130,6 +161,14 @@ class SendMsg(unittest.TestCase):
     def test_04_sendMsg(self):
         """入参验证：group字段缺失"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -147,6 +186,14 @@ class SendMsg(unittest.TestCase):
     def test_05_sendMsg(self):
         """入参验证：type字段缺失"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -164,6 +211,14 @@ class SendMsg(unittest.TestCase):
     def test_06_sendMsg(self):
         """入参验证：time字段缺失"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -181,6 +236,14 @@ class SendMsg(unittest.TestCase):
     def test_07_sendMsg(self):
         """入参验证：data字段缺失"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -198,6 +261,14 @@ class SendMsg(unittest.TestCase):
     def test_08_sendMsg(self):
         """入参验证：from_uid入参空'' """
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -216,6 +287,14 @@ class SendMsg(unittest.TestCase):
     def test_09_sendMsg(self):
         """入参验证：to_uid入参空'' """
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -234,6 +313,14 @@ class SendMsg(unittest.TestCase):
     def test_A0_sendMsg(self):
         """入参验证：group入参空'' """
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -252,6 +339,14 @@ class SendMsg(unittest.TestCase):
     def test_A1_sendMsg(self):
         """入参验证：type入参空'' """
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -270,6 +365,14 @@ class SendMsg(unittest.TestCase):
     def test_A2_sendMsg(self):
         """入参验证：time入参空'' """
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -288,6 +391,14 @@ class SendMsg(unittest.TestCase):
     def test_A3_sendMsg(self):
         """入参验证：data入参空'' """
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -306,6 +417,14 @@ class SendMsg(unittest.TestCase):
     def test_A4_sendMsg(self):
         """业务逻辑： type0：发送cmd消息"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -325,6 +444,14 @@ class SendMsg(unittest.TestCase):
     def test_A5_sendMsg(self):
         """业务逻辑： type2：发送image消息"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -344,6 +471,14 @@ class SendMsg(unittest.TestCase):
     def test_A6_sendMsg(self):
         """业务逻辑： type3：发送audio消息"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -363,6 +498,14 @@ class SendMsg(unittest.TestCase):
     def test_A7_sendMsg(self):
         """业务逻辑： type4：发送video消息"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -382,6 +525,14 @@ class SendMsg(unittest.TestCase):
     def test_A8_sendMsg(self):
         """业务逻辑： type5：发送file消息"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -401,6 +552,14 @@ class SendMsg(unittest.TestCase):
     def test_A9_sendMsg(self):
         """业务逻辑： type6：发送position消息"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -421,6 +580,14 @@ class SendMsg(unittest.TestCase):
     def test_B0_sendMsg(self):
         """业务逻辑： type100：无效"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -439,6 +606,14 @@ class SendMsg(unittest.TestCase):
     def test_B1_sendMsg(self):
         """业务逻辑：发送群消息"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)
         code_data = {
@@ -457,6 +632,14 @@ class SendMsg(unittest.TestCase):
     def test_B2_sendMsg(self):
         """业务逻辑：from_uid非群成员"""
         code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print(">>>群成员："+redis_.hget_(gb+self.gid, "members"))
         print('>>>请求地址：', code_url)
         timestamp13 = int(time.time()*1000)

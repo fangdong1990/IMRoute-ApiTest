@@ -1,7 +1,7 @@
 import unittest
 import requests
 import json
-from pyBase import redis_im_handle, config_action
+from pyBase import redis_im_handle, config_action,get_md5
 import time
 
 
@@ -13,9 +13,6 @@ uid_list = [{"uid": "dqy0606"}, {"uid": "dqy0602"}, {"uid": "dqy0603"}, {"uid": 
 gb = "td_group:g_id:"                  # 群标识
 tn = "td_nlm_t:"                       # 离线标识
 redis_ = redis_im_handle.RedisIm()     # 实例化redis操作对象
-
-# 入参格式json
-headers = {"Content-Type": "application/json"}  # 指定提交的是json
 
 
 class GetGroupInfo(unittest.TestCase):
@@ -36,8 +33,19 @@ class GetGroupInfo(unittest.TestCase):
         cls.get_group_info = api_re.get("api_path", "get_group_info")
         cls.send_msg = api_re.get("api_path", "send_msg")
 
+        #  获取header_key数据
+        cls.key = api_re.get("header_key", "key")
+
         """建群成功后获取gid"""
         code_url = cls.url_common + cls.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+cls.key)
+                   }
+        print(">>>请求头：", headers)
         code_data = {
             'ownerId': ownerId,
             'name': ownerId+"_GetGroupInfo",
@@ -68,6 +76,14 @@ class GetGroupInfo(unittest.TestCase):
     def test_01_getGroupInfo(self):
         """通过性验证：所有参数正常传入"""
         code_url = self.url_common + self.get_group_info
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': self.gid,
@@ -80,6 +96,14 @@ class GetGroupInfo(unittest.TestCase):
     def test_02_getGroupInfo(self):
         """入参验证：gid字段缺失"""
         code_url = self.url_common + self.get_group_info
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
         }
@@ -91,6 +115,14 @@ class GetGroupInfo(unittest.TestCase):
     def test_03_getGroupInfo(self):
         """入参验证：gid入参为空'' """
         code_url = self.url_common + self.get_group_info
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': '',
@@ -103,6 +135,14 @@ class GetGroupInfo(unittest.TestCase):
     def test_04_getGroupInfo(self):
         """入参验证：gid无效"""
         code_url = self.url_common + self.get_group_info
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': '165656664155',

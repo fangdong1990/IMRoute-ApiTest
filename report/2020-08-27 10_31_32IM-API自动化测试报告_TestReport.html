@@ -219,9 +219,9 @@ function showOutput(id, name) {
 
 <div class='heading'>
 <h1>IM-API自动化测试报告</h1>
-<p class='attribute'><strong>Start Time:</strong> 2020-08-21 11:38:54</p>
-<p class='attribute'><strong>Duration:</strong> 0:00:00.331384</p>
-<p class='attribute'><strong>Status:</strong> Pass 5 Error 8</p>
+<p class='attribute'><strong>Start Time:</strong> 2020-08-27 10:31:32</p>
+<p class='attribute'><strong>Duration:</strong> 0:00:00.436011</p>
+<p class='attribute'><strong>Status:</strong> Pass 5 Failure 4</p>
 
 <p class='description'>域名：http://imbj01.tdweilai.com/</p>
 </div>
@@ -262,13 +262,13 @@ function showOutput(id, name) {
     <td>View</td>
 </tr>
 
-<tr class='passClass'>
+<tr class='failClass'>
     <td>test_01_login.Login: 登录接口：动态获取IM-URI</td>
+    <td>9</td>
     <td>5</td>
-    <td>5</td>
+    <td>4</td>
     <td>0</td>
-    <td>0</td>
-    <td><a href="javascript:showClassDetail('c1',5)">Detail</a></td>
+    <td><a href="javascript:showClassDetail('c1',9)">Detail</a></td>
 </tr>
 
 <tr id='pt1.1' class='hiddenRow'>
@@ -286,7 +286,8 @@ function showOutput(id, name) {
         </div>
         <pre>
         
-pt1.1: &gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
+pt1.1: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0001', 'timestamp': '1598495492642', 'sign': '5bd51a917446ceeaf93d9e6b3b4e82fe'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
 &gt;&gt;&gt;请求参数： {"uid": "dqy0001", "alias": "dqy001_login"}
 &gt;&gt;&gt;返回： {
     "code": "0",
@@ -317,7 +318,8 @@ pt1.1: &gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
         </div>
         <pre>
         
-pt1.2: &gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
+pt1.2: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0001', 'timestamp': '1598495492695', 'sign': 'a72fe10a93d19904330859ba97d78233'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
 &gt;&gt;&gt;请求参数： {"uid": "dqy0001"}
 &gt;&gt;&gt;返回： {
     "code": "0",
@@ -348,7 +350,8 @@ pt1.2: &gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
         </div>
         <pre>
         
-pt1.3: &gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
+pt1.3: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0001', 'timestamp': '1598495492730', 'sign': '1b9899aef994fd84d7c10d576bbee2f6'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
 &gt;&gt;&gt;请求参数： {"alias": "dqy001_login"}
 &gt;&gt;&gt;返回： {
     "code": "10000",
@@ -378,7 +381,8 @@ pt1.3: &gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
         </div>
         <pre>
         
-pt1.4: &gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
+pt1.4: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0001', 'timestamp': '1598495492769', 'sign': '551abc0f1c1e23e9ffd3b174fb26077b'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
 &gt;&gt;&gt;请求参数： {"uid": "", "alias": "dqy001_login"}
 &gt;&gt;&gt;返回： {
     "code": "10000",
@@ -408,7 +412,8 @@ pt1.4: &gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
         </div>
         <pre>
         
-pt1.5: &gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
+pt1.5: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0001', 'timestamp': '1598495492806', 'sign': '019fbeb87c43cba34d508e43bb3a564f'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
 &gt;&gt;&gt;请求参数： {"uid": "dqy0001", "alias": ""}
 &gt;&gt;&gt;返回： {
     "code": "0",
@@ -424,42 +429,32 @@ pt1.5: &gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
     </td>
 </tr>
 
-<tr class='errorClass'>
-    <td>unittest.loader._FailedTest</td>
-    <td>8</td>
-    <td>0</td>
-    <td>0</td>
-    <td>8</td>
-    <td><a href="javascript:showClassDetail('c2',8)">Detail</a></td>
-</tr>
-
-<tr id='ft2.1' class='none'>
-    <td class='errorCase'><div class='testcase'>test_02_createGroup</div></td>
+<tr id='ft1.6' class='none'>
+    <td class='failCase'><div class='testcase'>test_06_login: header验证：uid参数缺失</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft2.1')" >
-        error</a>
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft1.6')" >
+        fail</a>
 
-    <div id='div_ft2.1' class="popup_window">
+    <div id='div_ft1.6' class="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_ft2.1').style.display = 'none' " >
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft1.6').style.display = 'none' " >
            [x]</a>
         </div>
         <pre>
         
-ft2.1: ImportError: Failed to import test module: test_02_createGroup
+ft1.6: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'timestamp': '1598495492844', 'sign': 'b4facecf0bb6334a0e81ed52a0c1a0fe'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
+&gt;&gt;&gt;请求参数： {"uid": "dqy0001", "alias": ""}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "uid不能为空"
+}
 Traceback (most recent call last):
-  File "D:\Python37\lib\unittest\loader.py", line 434, in _find_test_path
-    module = self._get_module_from_name(name)
-  File "D:\Python37\lib\unittest\loader.py", line 375, in _get_module_from_name
-    __import__(name)
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_02_createGroup.py", line 4, in &lt;module&gt;
-    from pyBase import redis_im_handle,config_action
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\pyBase\redis_im_handle.py", line 1, in &lt;module&gt;
-    import redis
-ModuleNotFoundError: No module named 'redis'
-
+  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_01_login.py", line 156, in test_06_login
+    assert r.json()["msg"] == "ok", r.json()['msg']
+AssertionError: uid不能为空
 
 
         </pre>
@@ -469,33 +464,32 @@ ModuleNotFoundError: No module named 'redis'
     </td>
 </tr>
 
-<tr id='ft2.2' class='none'>
-    <td class='errorCase'><div class='testcase'>test_03_addMember</div></td>
+<tr id='ft1.7' class='none'>
+    <td class='failCase'><div class='testcase'>test_07_login: header验证：timestamp参数缺失</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft2.2')" >
-        error</a>
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft1.7')" >
+        fail</a>
 
-    <div id='div_ft2.2' class="popup_window">
+    <div id='div_ft1.7' class="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_ft2.2').style.display = 'none' " >
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft1.7').style.display = 'none' " >
            [x]</a>
         </div>
         <pre>
         
-ft2.2: ImportError: Failed to import test module: test_03_addMember
+ft1.7: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0001', 'sign': '130b1eb49104aa01b6775e59af699bb9'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
+&gt;&gt;&gt;请求参数： {"uid": "dqy0001", "alias": ""}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "timestamp不能为空"
+}
 Traceback (most recent call last):
-  File "D:\Python37\lib\unittest\loader.py", line 434, in _find_test_path
-    module = self._get_module_from_name(name)
-  File "D:\Python37\lib\unittest\loader.py", line 375, in _get_module_from_name
-    __import__(name)
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_03_addMember.py", line 4, in &lt;module&gt;
-    from pyBase import redis_im_handle, config_action
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\pyBase\redis_im_handle.py", line 1, in &lt;module&gt;
-    import redis
-ModuleNotFoundError: No module named 'redis'
-
+  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_01_login.py", line 176, in test_07_login
+    assert r.json()["msg"] == "ok", r.json()['msg']
+AssertionError: timestamp不能为空
 
 
         </pre>
@@ -505,33 +499,32 @@ ModuleNotFoundError: No module named 'redis'
     </td>
 </tr>
 
-<tr id='ft2.3' class='none'>
-    <td class='errorCase'><div class='testcase'>test_04_delGroup</div></td>
+<tr id='ft1.8' class='none'>
+    <td class='failCase'><div class='testcase'>test_08_login: header验证：sign参数缺失</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft2.3')" >
-        error</a>
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft1.8')" >
+        fail</a>
 
-    <div id='div_ft2.3' class="popup_window">
+    <div id='div_ft1.8' class="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_ft2.3').style.display = 'none' " >
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft1.8').style.display = 'none' " >
            [x]</a>
         </div>
         <pre>
         
-ft2.3: ImportError: Failed to import test module: test_04_delGroup
+ft1.8: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0001', 'timestamp': '1598495492918'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
+&gt;&gt;&gt;请求参数： {"uid": "dqy0001", "alias": ""}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "sign不能为空"
+}
 Traceback (most recent call last):
-  File "D:\Python37\lib\unittest\loader.py", line 434, in _find_test_path
-    module = self._get_module_from_name(name)
-  File "D:\Python37\lib\unittest\loader.py", line 375, in _get_module_from_name
-    __import__(name)
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_04_delGroup.py", line 4, in &lt;module&gt;
-    from pyBase import redis_im_handle, config_action
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\pyBase\redis_im_handle.py", line 1, in &lt;module&gt;
-    import redis
-ModuleNotFoundError: No module named 'redis'
-
+  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_01_login.py", line 196, in test_08_login
+    assert r.json()["msg"] == "ok", r.json()['msg']
+AssertionError: sign不能为空
 
 
         </pre>
@@ -541,177 +534,32 @@ ModuleNotFoundError: No module named 'redis'
     </td>
 </tr>
 
-<tr id='ft2.4' class='none'>
-    <td class='errorCase'><div class='testcase'>test_05_delMember</div></td>
+<tr id='ft1.9' class='none'>
+    <td class='failCase'><div class='testcase'>test_0A_login: header验证：uid入参为空''</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft2.4')" >
-        error</a>
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft1.9')" >
+        fail</a>
 
-    <div id='div_ft2.4' class="popup_window">
+    <div id='div_ft1.9' class="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_ft2.4').style.display = 'none' " >
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft1.9').style.display = 'none' " >
            [x]</a>
         </div>
         <pre>
         
-ft2.4: ImportError: Failed to import test module: test_05_delMember
+ft1.9: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': '', 'timestamp': '1598495492960', 'sign': '129846dbdbb09c32402a4700fe02ea2d'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com//login
+&gt;&gt;&gt;请求参数： {"uid": "dqy0001", "alias": ""}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "uid不能为空"
+}
 Traceback (most recent call last):
-  File "D:\Python37\lib\unittest\loader.py", line 434, in _find_test_path
-    module = self._get_module_from_name(name)
-  File "D:\Python37\lib\unittest\loader.py", line 375, in _get_module_from_name
-    __import__(name)
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_05_delMember.py", line 4, in &lt;module&gt;
-    from pyBase import redis_im_handle, config_action
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\pyBase\redis_im_handle.py", line 1, in &lt;module&gt;
-    import redis
-ModuleNotFoundError: No module named 'redis'
-
-
-
-        </pre>
-    </div>
-    <!--css div popup end-->
-
-    </td>
-</tr>
-
-<tr id='ft2.5' class='none'>
-    <td class='errorCase'><div class='testcase'>test_06_quitGroup</div></td>
-    <td colspan='5' align='center'>
-
-    <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft2.5')" >
-        error</a>
-
-    <div id='div_ft2.5' class="popup_window">
-        <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_ft2.5').style.display = 'none' " >
-           [x]</a>
-        </div>
-        <pre>
-        
-ft2.5: ImportError: Failed to import test module: test_06_quitGroup
-Traceback (most recent call last):
-  File "D:\Python37\lib\unittest\loader.py", line 434, in _find_test_path
-    module = self._get_module_from_name(name)
-  File "D:\Python37\lib\unittest\loader.py", line 375, in _get_module_from_name
-    __import__(name)
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_06_quitGroup.py", line 4, in &lt;module&gt;
-    from pyBase import redis_im_handle, config_action
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\pyBase\redis_im_handle.py", line 1, in &lt;module&gt;
-    import redis
-ModuleNotFoundError: No module named 'redis'
-
-
-
-        </pre>
-    </div>
-    <!--css div popup end-->
-
-    </td>
-</tr>
-
-<tr id='ft2.6' class='none'>
-    <td class='errorCase'><div class='testcase'>test_07_changeOwner</div></td>
-    <td colspan='5' align='center'>
-
-    <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft2.6')" >
-        error</a>
-
-    <div id='div_ft2.6' class="popup_window">
-        <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_ft2.6').style.display = 'none' " >
-           [x]</a>
-        </div>
-        <pre>
-        
-ft2.6: ImportError: Failed to import test module: test_07_changeOwner
-Traceback (most recent call last):
-  File "D:\Python37\lib\unittest\loader.py", line 434, in _find_test_path
-    module = self._get_module_from_name(name)
-  File "D:\Python37\lib\unittest\loader.py", line 375, in _get_module_from_name
-    __import__(name)
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_07_changeOwner.py", line 4, in &lt;module&gt;
-    from pyBase import redis_im_handle,config_action
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\pyBase\redis_im_handle.py", line 1, in &lt;module&gt;
-    import redis
-ModuleNotFoundError: No module named 'redis'
-
-
-
-        </pre>
-    </div>
-    <!--css div popup end-->
-
-    </td>
-</tr>
-
-<tr id='ft2.7' class='none'>
-    <td class='errorCase'><div class='testcase'>test_08_getGroupInfo</div></td>
-    <td colspan='5' align='center'>
-
-    <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft2.7')" >
-        error</a>
-
-    <div id='div_ft2.7' class="popup_window">
-        <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_ft2.7').style.display = 'none' " >
-           [x]</a>
-        </div>
-        <pre>
-        
-ft2.7: ImportError: Failed to import test module: test_08_getGroupInfo
-Traceback (most recent call last):
-  File "D:\Python37\lib\unittest\loader.py", line 434, in _find_test_path
-    module = self._get_module_from_name(name)
-  File "D:\Python37\lib\unittest\loader.py", line 375, in _get_module_from_name
-    __import__(name)
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_08_getGroupInfo.py", line 4, in &lt;module&gt;
-    from pyBase import redis_im_handle, config_action
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\pyBase\redis_im_handle.py", line 1, in &lt;module&gt;
-    import redis
-ModuleNotFoundError: No module named 'redis'
-
-
-
-        </pre>
-    </div>
-    <!--css div popup end-->
-
-    </td>
-</tr>
-
-<tr id='ft2.8' class='none'>
-    <td class='errorCase'><div class='testcase'>test_09_sendMsg</div></td>
-    <td colspan='5' align='center'>
-
-    <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft2.8')" >
-        error</a>
-
-    <div id='div_ft2.8' class="popup_window">
-        <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_ft2.8').style.display = 'none' " >
-           [x]</a>
-        </div>
-        <pre>
-        
-ft2.8: ImportError: Failed to import test module: test_09_sendMsg
-Traceback (most recent call last):
-  File "D:\Python37\lib\unittest\loader.py", line 434, in _find_test_path
-    module = self._get_module_from_name(name)
-  File "D:\Python37\lib\unittest\loader.py", line 375, in _get_module_from_name
-    __import__(name)
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_09_sendMsg.py", line 4, in &lt;module&gt;
-    from pyBase import redis_im_handle, config_action
-  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\pyBase\redis_im_handle.py", line 1, in &lt;module&gt;
-    import redis
-ModuleNotFoundError: No module named 'redis'
-
+  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_01_login.py", line 217, in test_0A_login
+    assert r.json()["msg"] == "ok", r.json()['msg']
+AssertionError: uid不能为空
 
 
         </pre>
@@ -723,10 +571,10 @@ ModuleNotFoundError: No module named 'redis'
 
 <tr id='total_row'>
     <td>Total</td>
-    <td>13</td>
+    <td>9</td>
     <td class="text text-success">5</td>
-    <td class="text text-danger">0</td>
-    <td class="text text-warning">8</td>
+    <td class="text text-danger">4</td>
+    <td class="text text-warning">0</td>
     <td>&nbsp;</td>
 </tr>
 </table>
@@ -736,14 +584,14 @@ ModuleNotFoundError: No module named 'redis'
     <script type="text/javascript">
 var data = [
 	{
-		value: 8,
+		value: 0,
 		color: "#ebccd1",
 		label: "Error",
 		labelColor: 'white',
 		labelFontSize: '16'
 	},
 	{
-		value : 0,
+		value : 4,
 		color : "#faebcc",
 		label: "Fail",
 		labelColor: 'white',

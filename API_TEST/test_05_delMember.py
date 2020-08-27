@@ -1,7 +1,7 @@
 import unittest
 import requests
 import json
-from pyBase import redis_im_handle, config_action
+from pyBase import redis_im_handle, config_action, get_md5
 import time
 
 
@@ -10,9 +10,6 @@ import time
 # 数据使用dqy0301-dqy0400
 ownerId = "dqy0301"
 uid_list = [{"uid": "dqy0309"}, {"uid": "dqy0302"}, {"uid": "dqy0303"}, {"uid": "dqy0304", "alias": "del_member"},{"uid": "dqy0305"},{"uid": "dqy0306"},{"uid": "dqy0307"},{"uid": "dqy0308"}]  # 建群
-
-# 入参格式json
-headers = {"Content-Type": "application/json"}  # 指定提交的是json
 
 # redis数据存贮
 gb = "td_group:g_id:"                  # 群标识
@@ -42,8 +39,19 @@ class AelMember(unittest.TestCase):
         cls.get_group_info = api_re.get("api_path", "get_group_info")
         cls.send_msg = api_re.get("api_path", "send_msg")
 
+        #  获取header_key数据
+        cls.key = api_re.get("header_key", "key")
+
         """redis存储验证：td_group:g_id+gid 成功存贮：members、owner、createAt"""
         code_url = cls.url_common + cls.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+cls.key)
+                   }
+        print(">>>请求头：", headers)
         code_data = {
             'ownerId': ownerId,
             'name': ownerId+"_delMember",
@@ -74,6 +82,14 @@ class AelMember(unittest.TestCase):
     def test_01_delMember(self):
         """通过性验证：所有参数正常传入"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -107,6 +123,14 @@ class AelMember(unittest.TestCase):
     def test_04_delMember(self):
         """入参验证：ownerId字段缺失"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': self.gid,
@@ -120,6 +144,14 @@ class AelMember(unittest.TestCase):
     def test_05_delMember(self):
         """入参验证：gid字段缺失"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -133,6 +165,14 @@ class AelMember(unittest.TestCase):
     def test_06_delMember(self):
         """入参验证：uids字段缺失"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -146,6 +186,14 @@ class AelMember(unittest.TestCase):
     def test_07_delMember(self):
         """入参验证：ownerId入参为空''"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': '',
@@ -160,6 +208,14 @@ class AelMember(unittest.TestCase):
     def test_08_delMember(self):
         """入参验证：gid入参为空''"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -174,6 +230,14 @@ class AelMember(unittest.TestCase):
     def test_09_delMember(self):
         """入参验证：uids入参为空''"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -188,6 +252,14 @@ class AelMember(unittest.TestCase):
     def test_A0_delMember(self):
         """入参验证：gid无效''"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -202,6 +274,14 @@ class AelMember(unittest.TestCase):
     def test_A1_delMember(self):
         """业务逻辑验证：删除人员(单个)非本群人员"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         print('>>>群成员list：', redis_.hget_(gb+self.gid, "members"))
         code_data = {
@@ -218,6 +298,14 @@ class AelMember(unittest.TestCase):
     def test_A2_delMember(self):
         """业务逻辑验证：删除人员(多个)为本群人员"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         print('>>>删除人员列表：', uid_list[2:4])
         code_data = {
@@ -234,6 +322,14 @@ class AelMember(unittest.TestCase):
     def test_A3_delMember(self):
         """业务逻辑验证：删除人员(多个)中存在非本群人员"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -248,6 +344,14 @@ class AelMember(unittest.TestCase):
     def test_A4_delMember(self):
         """业务逻辑验证：非群主不可删除本群人员"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': uid_list[5]["uid"],
@@ -262,6 +366,14 @@ class AelMember(unittest.TestCase):
     def test_A5_delMember(self):
         """业务逻辑验证：不可删除群主"""
         code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,

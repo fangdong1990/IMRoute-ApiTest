@@ -1,7 +1,7 @@
 import unittest
 import requests
 import json
-from pyBase import redis_im_handle, config_action
+from pyBase import redis_im_handle, config_action, get_md5
 import time
 
 
@@ -10,9 +10,6 @@ import time
 # 数据使用dqy0201-dqy0300
 ownerId = "dqy0201"
 uid_list = [{"uid": "dqy0205"}, {"uid": "dqy0202"}, {"uid": "dqy0203"}, {"uid": "dqy0204"}]
-
-# 入参格式json
-headers = {"Content-Type": "application/json"}  # 指定提交的是json
 
 # redis数据存贮
 gb = "td_group:g_id:"                  # 群标识
@@ -42,8 +39,19 @@ class DelGroup(unittest.TestCase):
         cls.get_group_info = api_re.get("api_path", "get_group_info")
         cls.send_msg = api_re.get("api_path", "send_msg")
 
+        #  获取header_key数据
+        cls.key = api_re.get("header_key", "key")
+
         """redis存储验证：td_group:g_id+gid 成功存贮：members、owner、createAt"""
         code_url = cls.url_common + cls.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+cls.key)
+                   }
+        print(">>>请求头：", headers)
         code_data = {
             'ownerId': ownerId,
             'name': ownerId+"delGroup",
@@ -74,6 +82,14 @@ class DelGroup(unittest.TestCase):
     def test_01_delGroup(self):
         """通过性验证：入参正常：ownerId、gid"""
         code_url = self.url_common + self.del_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -109,6 +125,14 @@ class DelGroup(unittest.TestCase):
     def test_04_delGroup(self):
         """入参验证：ownerId字段缺失"""
         code_url = self.url_common + self.del_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': self.gid,
@@ -121,6 +145,14 @@ class DelGroup(unittest.TestCase):
     def test_05_delGroup(self):
         """入参验证：gid字段缺失"""
         code_url = self.url_common + self.del_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -133,6 +165,14 @@ class DelGroup(unittest.TestCase):
     def test_06_delGroup(self):
         """入参验证：ownerId入参为空''"""
         code_url = self.url_common + self.del_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': '',
@@ -146,6 +186,14 @@ class DelGroup(unittest.TestCase):
     def test_07_delGroup(self):
         """入参验证：gid入参为空''"""
         code_url = self.url_common + self.del_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -159,6 +207,14 @@ class DelGroup(unittest.TestCase):
     def test_08_delGroup(self):
         """入参验证：gid无效"""
         code_url = self.url_common + self.del_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -172,6 +228,14 @@ class DelGroup(unittest.TestCase):
     def test_09_delGroup(self):
         """入参验证：ownerId无效"""
         code_url = self.url_common + self.del_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': 'dqywjfksf',

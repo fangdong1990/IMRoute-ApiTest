@@ -1,7 +1,7 @@
 import unittest
 import requests
 import json
-from pyBase import redis_im_handle,config_action
+from pyBase import redis_im_handle, config_action, get_md5
 import time
 
 # 依赖数据
@@ -33,9 +33,6 @@ uids_lots = [{"uid": "dqy0005"}, {"uid": "dqy0007"}, {"uid": "dqy0043"}, {"uid":
              {"uid": "dqy0075"}, {"uid": "dqy0091"}, {"uid": "dqy0036"}, {"uid": "dqy0092"}, {"uid": "dqy0055"},
              {"uid": "dqy0202"}]
 
-# 入参格式json
-headers = {"Content-Type": "application/json"}  # 指定提交的是json
-
 # redis数据存贮
 gb = "td_group:g_id:"                  # 群标识
 tn = "td_nlm_t:"                       # 离线标识
@@ -64,17 +61,29 @@ class CreateGroup(unittest.TestCase):
         cls.get_group_info = api_re.get("api_path", "get_group_info")
         cls.send_msg = api_re.get("api_path", "send_msg")
 
+        #  获取header_key数据
+        cls.key = api_re.get("header_key", "key")
+
     def tearDown(self):
         print('>>>返回：', self.result)
 
     def test_01_createGroup(self):
         """通过性验证：ownerId name uids正常入参"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids4,
+            'msg_id': ''
         }
         t = int(time.time())
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
@@ -111,6 +120,14 @@ class CreateGroup(unittest.TestCase):
     def test_04_createGroup(self):
         """入参验证：ownerId字段缺失"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'name': ownerId+"_CreateGroup",
@@ -124,6 +141,14 @@ class CreateGroup(unittest.TestCase):
     def test_05_createGroup(self):
         """入参验证：name字段缺失:目前约定字段必填"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -137,6 +162,14 @@ class CreateGroup(unittest.TestCase):
     def test_06_createGroup(self):
         """入参验证：uids字段缺失"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -150,6 +183,14 @@ class CreateGroup(unittest.TestCase):
     def test_07_createGroup(self):
         """入参验证：ownerId入参为空'' """
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': '',
@@ -164,6 +205,14 @@ class CreateGroup(unittest.TestCase):
     def test_08_createGroup(self):
         """入参验证：name入参为空'' """
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -185,6 +234,14 @@ class CreateGroup(unittest.TestCase):
     def test_09_createGroup(self):
         """入参验证：uids入参为空[] """
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -199,6 +256,14 @@ class CreateGroup(unittest.TestCase):
     def test_A0_createGroup(self):
         """入参验证：uids入参部分含alias"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -220,6 +285,14 @@ class CreateGroup(unittest.TestCase):
     def test_A1_createGroup(self):
         """入参验证：uids入参全部含alias"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -241,6 +314,14 @@ class CreateGroup(unittest.TestCase):
     def test_A2_createGroup(self):
         """业务逻辑验证：添加群成员uids为1 """
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -255,6 +336,14 @@ class CreateGroup(unittest.TestCase):
     def test_A3_createGroup(self):
         """业务逻辑验证：添加群成员uids为2 """
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -276,6 +365,14 @@ class CreateGroup(unittest.TestCase):
     def test_A4_createGroup(self):
         """业务逻辑验证：添加群成员uids为3"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -297,6 +394,14 @@ class CreateGroup(unittest.TestCase):
     def test_A5_createGroup(self):
         """业务逻辑验证：添加群人员uids为lots(61)"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -318,6 +423,14 @@ class CreateGroup(unittest.TestCase):
     def test_A6_createGroup(self):
         """业务逻辑验证：建群uids(3)含ownerId-可建群成功"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -340,6 +453,14 @@ class CreateGroup(unittest.TestCase):
     def test_A7_createGroup(self):
         """业务逻辑验证：建群uids(3)中含重复成员2-去除重复人员后建群"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -361,6 +482,14 @@ class CreateGroup(unittest.TestCase):
     def test_A8_createGroup(self):
         """业务逻辑验证：建群uids(2)中含重复成员2"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
@@ -375,6 +504,14 @@ class CreateGroup(unittest.TestCase):
     def test_A9_createGroup(self):
         """业务逻辑验证：建群uids(2)含ownerId"""
         code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,

@@ -1,7 +1,7 @@
 import unittest
 import requests
 import json
-from pyBase import redis_im_handle, config_action
+from pyBase import redis_im_handle, config_action,get_md5
 import time
 
 
@@ -11,9 +11,6 @@ import time
 ownerId = "dqy0401"
 uid_list = [{"uid": "dqy0409"}, {"uid": "dqy0402"}, {"uid": "dqy0403"}, {"uid": "dqy0404", "alias": "del_member"},
             {"uid": "dqy0405"}, {"uid": "dqy0406"}, {"uid": "dqy0407"}, {"uid": "dqy0408"}]  # 建群
-
-# 入参格式json
-headers = {"Content-Type": "application/json"}  # 指定提交的是json
 
 # redis数据存贮
 gb = "td_group:g_id:"                  # 群标识
@@ -43,8 +40,19 @@ class QuitGroup(unittest.TestCase):
         cls.get_group_info = api_re.get("api_path", "get_group_info")
         cls.send_msg = api_re.get("api_path", "send_msg")
 
+        #  获取header_key数据
+        cls.key = api_re.get("header_key", "key")
+
         """redis存储验证：td_group:g_id+gid 成功存贮：members、owner、createAt"""
         code_url = cls.url_common + cls.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+cls.key)
+                   }
+        print(">>>请求头：", headers)
         code_data = {
             'ownerId': ownerId,
             'name': ownerId+"create_group",
@@ -75,6 +83,14 @@ class QuitGroup(unittest.TestCase):
     def test_01_quitGroup(self):
         """通过性验证：所有参数正常传入"""
         code_url = self.url_common + self.quit_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": uid_list[1]["uid"],
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': uid_list[1]["uid"],
@@ -106,6 +122,14 @@ class QuitGroup(unittest.TestCase):
     def test_04_quitGroup(self):
         """入参验证：uid字段缺失"""
         code_url = self.url_common + self.quit_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": uid_list[1]["uid"],
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': self.gid,
@@ -118,6 +142,14 @@ class QuitGroup(unittest.TestCase):
     def test_05_quitGroup(self):
         """入参验证：gid字段缺失"""
         code_url = self.url_common + self.quit_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": uid_list[2]["uid"],
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': uid_list[2]["uid"],
@@ -130,6 +162,14 @@ class QuitGroup(unittest.TestCase):
     def test_06_quitGroup(self):
         """入参验证：uid入参为空'' """
         code_url = self.url_common + self.quit_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": uid_list[1]["uid"],
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': '',
@@ -143,6 +183,14 @@ class QuitGroup(unittest.TestCase):
     def test_07_quitGroup(self):
         """入参验证：gid入参为空''"""
         code_url = self.url_common + self.quit_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": uid_list[1]["uid"],
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': uid_list[1]["uid"],
@@ -156,6 +204,14 @@ class QuitGroup(unittest.TestCase):
     def test_08_quitGroup(self):
         """业务逻辑：uid不属于本群"""
         code_url = self.url_common + self.quit_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": 'dqy0101',
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': 'dqy0101',
@@ -170,6 +226,14 @@ class QuitGroup(unittest.TestCase):
     def test_09_quitGroup(self):
         """业务逻辑：群主不能退群"""
         code_url = self.url_common + self.quit_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': ownerId,

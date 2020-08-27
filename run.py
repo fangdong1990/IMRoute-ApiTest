@@ -14,7 +14,7 @@ def allTests():
     # path = './API_TEST'
     path = './API_TEST'
     print(path)
-    suit = unittest.defaultTestLoader.discover(path, pattern='test_0*.py')
+    suit = unittest.defaultTestLoader.discover(path, pattern='test_02*.py')
     return suit
 
 
@@ -37,4 +37,4 @@ def run(title_,is_sendEmail=0):
 
 
 if __name__ == '__main__':
-    run("IM-API自动化测试报告", is_sendEmail=1)
+    run("IM-API自动化测试报告", is_sendEmail=0)
