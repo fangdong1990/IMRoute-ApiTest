@@ -55,11 +55,11 @@ class AddMember(unittest.TestCase):
             "timestamp": timestamp_13,
             "sign": get_md5.get_md5_value(ownerId+timestamp_13+cls.key)
                    }
-        print(">>>请求头：", headers)
         code_data = {
             'ownerId': ownerId,
             'name': ownerId+"_AddMember",
             'uids': uid_list,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         t = int(time.time())                                                # 请求前获取时间
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
@@ -99,6 +99,7 @@ class AddMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': add_uids1,
+            'msg_id': timestamp_13+'_'+ownerId
         }
         print(">>>>添加新成员前的群员列表", redis_.hget_(gb+self.gid, "members"))
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
@@ -142,6 +143,7 @@ class AddMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': add_uids3,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -169,6 +171,7 @@ class AddMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': add_uids1,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -195,6 +198,7 @@ class AddMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': add_uids4,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -218,6 +222,7 @@ class AddMember(unittest.TestCase):
         code_data = {
             'gid': self.gid,
             'uids': add_uids1,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -239,6 +244,7 @@ class AddMember(unittest.TestCase):
         code_data = {
             'ownerId': ownerId,
             'uids': add_uids1,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -260,6 +266,7 @@ class AddMember(unittest.TestCase):
         code_data = {
             'ownerId': ownerId,
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -267,6 +274,51 @@ class AddMember(unittest.TestCase):
         assert r.json()["msg"] == "params err", r.json()['msg']
 
     def test_A0_addMember(self):
+        """入参验证：msg_id字段缺失"""
+        code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'ownerId': ownerId,
+            'gid': self.gid,
+            'uids': add_uids1,
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_A1addMember(self):
+        """入参验证：msg_id字段为'' """
+        code_url = self.url_common + self.add_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'ownerId': ownerId,
+            'gid': self.gid,
+            'uids': add_uids1,
+            'msg_id': ''
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_A2_addMember(self):
         """入参验证：ownerId入参为空''"""
         code_url = self.url_common + self.add_member
         timestamp_13 = str(int(time.time()*1000))
@@ -282,13 +334,14 @@ class AddMember(unittest.TestCase):
             'ownerId': '',
             'gid': self.gid,
             'uids': add_uids1,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ownerId不能为空", r.json()['msg']
 
-    def test_A1_addMember(self):
+    def test_A3_addMember(self):
         """入参验证：gid入参为空''"""
         code_url = self.url_common + self.add_member
         timestamp_13 = str(int(time.time()*1000))
@@ -304,13 +357,14 @@ class AddMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': '',
             'uids': add_uids1,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "gid不能为空", r.json()['msg']
 
-    def test_A2_addMember(self):
+    def test_A4_addMember(self):
         """入参验证：uids入参为空[] """
         code_url = self.url_common + self.add_member
         timestamp_13 = str(int(time.time()*1000))
@@ -326,13 +380,14 @@ class AddMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': [],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "params err", r.json()['msg']
 
-    def test_A3_addMember(self):
+    def test_A5_addMember(self):
         """入参验证：gid无效''"""
         code_url = self.url_common + self.add_member
         timestamp_13 = str(int(time.time()*1000))
@@ -348,6 +403,7 @@ class AddMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': '$12345678901234567890123456789011',
             'uids': add_uids1,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))

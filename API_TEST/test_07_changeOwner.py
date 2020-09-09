@@ -57,6 +57,7 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"change_owner",
             'uids': uid_list,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         t = int(time.time())                                                # 请求前获取时间
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
@@ -98,6 +99,7 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             "targetOwnerId": uid_list[1]["uid"],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -144,6 +146,7 @@ class ChangeOwner(unittest.TestCase):
         code_data = {
             'gid': self.gid,
             "targetOwnerId": uid_list[2]["uid"],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -165,6 +168,7 @@ class ChangeOwner(unittest.TestCase):
         code_data = {
             'ownerId': uid_list[1]["uid"],
             "targetOwnerId": uid_list[2]["uid"],
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -186,6 +190,7 @@ class ChangeOwner(unittest.TestCase):
         code_data = {
             'ownerId': uid_list[1]["uid"],
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -193,6 +198,51 @@ class ChangeOwner(unittest.TestCase):
         assert r.json()["msg"] == "targetOwnerId不能为空", r.json()['msg']
 
     def test_07_changeOwner(self):
+        """入参验证：msg_id字段缺失"""
+        code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'ownerId': uid_list[1]["uid"],
+            'gid': self.gid,
+            "targetOwnerId": uid_list[2]["uid"],
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_08_changeOwner(self):
+        """入参验证：msg_id字段为空"""
+        code_url = self.url_common + self.change_owner
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'ownerId': uid_list[1]["uid"],
+            'gid': self.gid,
+            "targetOwnerId": uid_list[2]["uid"],
+            'msg_id': ''
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_09_changeOwner(self):
         """入参验证：ownerId入参为空''"""
         code_url = self.url_common + self.change_owner
         timestamp_13 = str(int(time.time()*1000))
@@ -208,13 +258,14 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': '',
             'gid': self.gid,
             "targetOwnerId": uid_list[2]["uid"],
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ownerId不能为空", r.json()['msg']
 
-    def test_08_changeOwner(self):
+    def test_A0_changeOwner(self):
         """入参验证：gid入参为空''"""
         code_url = self.url_common + self.change_owner
         timestamp_13 = str(int(time.time()*1000))
@@ -230,13 +281,14 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': uid_list[1]["uid"],
             'gid': '',
             "targetOwnerId": uid_list[2]["uid"],
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "gid不能为空", r.json()['msg']
 
-    def test_09_changeOwner(self):
+    def test_A1_changeOwner(self):
         """入参验证：targetOwnerId入参为空''"""
         code_url = self.url_common + self.change_owner
         timestamp_13 = str(int(time.time()*1000))
@@ -252,13 +304,14 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': uid_list[1]["uid"],
             'gid': self.gid,
             "targetOwnerId": "",
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "targetOwnerId不能为空", r.json()['msg']
 
-    def test_A0_changeOwner(self):
+    def test_A2_changeOwner(self):
         """入参验证：ownerId非群主"""
         code_url = self.url_common + self.change_owner
         timestamp_13 = str(int(time.time()*1000))
@@ -274,13 +327,14 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': uid_list[3]["uid"],
             'gid': self.gid,
             "targetOwnerId": uid_list[2]["uid"],
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "Non-group manager", r.json()['msg']
 
-    def test_A1_changeOwner(self):
+    def test_A3_changeOwner(self):
         """入参验证：gid无效"""
         code_url = self.url_common + self.change_owner
         timestamp_13 = str(int(time.time()*1000))
@@ -296,13 +350,14 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': uid_list[1]["uid"],
             'gid': "$12345678901234567890123456789011",
             "targetOwnerId": uid_list[2]["uid"],
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "Non-group manager", r.json()['msg']
 
-    def test_A2_changeOwner(self):
+    def test_A4_changeOwner(self):
         """入参验证：targetOwnerId非群成员"""
         code_url = self.url_common + self.change_owner
         timestamp_13 = str(int(time.time()*1000))
@@ -318,13 +373,14 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': uid_list[1]["uid"],
             'gid': self.gid,
             "targetOwnerId": 'dqy0101',
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == " non-member", r.json()['msg']
 
-    def test_A3_changeOwner(self):
+    def test_A5_changeOwner(self):
         """业务逻辑验证：更换的群主带备注"""
         code_url = self.url_common + self.change_owner
         timestamp_13 = str(int(time.time()*1000))
@@ -343,6 +399,7 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': uid_list[1]["uid"],
             'gid': self.gid,
             "targetOwnerId": uid_list[4]["uid"],
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -352,7 +409,7 @@ class ChangeOwner(unittest.TestCase):
         assert eval(redis_.hget_(gb+self.gid, "owner"))['uid'] == uid_list[4]["uid"], "更换群主失败"
         assert eval(redis_.hget_(gb + self.gid, "owner")) == uid_list[4], "群主备注信息未跟新"
 
-    def test_A4_changeOwner(self):
+    def test_A6_changeOwner(self):
         """业务逻辑验证：更新群主成功后可添加人员"""
         code_url = self.url_common + self.add_member
         timestamp_13 = str(int(time.time()*1000))
@@ -369,6 +426,7 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': uid_list[4]["uid"],
             'gid': self.gid,
             'uids': add_uid,
+            'msg_id': timestamp_13 + '_' + uid_list[4]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -376,7 +434,7 @@ class ChangeOwner(unittest.TestCase):
         assert r.json()["msg"] == "ok", r.json()['msg']
         assert add_uid[0] in eval(redis_.hget_(gb+self.gid, "members")), redis_.hget_(gb+self.gid, "members")   # 验证添加成功
 
-    def test_A5_changeOwner(self):
+    def test_A7_changeOwner(self):
         """业务逻辑验证：更新群主成功后可删除人员"""
         code_url = self.url_common + self.del_member
         timestamp_13 = str(int(time.time()*1000))
@@ -392,6 +450,7 @@ class ChangeOwner(unittest.TestCase):
             'ownerId': uid_list[4]["uid"],
             'gid': self.gid,
             'uids': add_uid,
+            'msg_id': timestamp_13 + '_' + uid_list[4]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -399,7 +458,7 @@ class ChangeOwner(unittest.TestCase):
         assert r.json()["msg"] == "ok", r.json()['msg']
         assert add_uid not in eval(redis_.hget_(gb + self.gid, "members")), redis_.hget_(gb + self.gid, "members")  # 验证删除失败
 
-    def test_A6_changeOwner(self):
+    def test_A8_changeOwner(self):
         """业务逻辑验证：更新群主成功后可删除群"""
         code_url = self.url_common + self.del_group
         timestamp_13 = str(int(time.time()*1000))
@@ -414,6 +473,7 @@ class ChangeOwner(unittest.TestCase):
         code_data = {
             'ownerId': uid_list[4]["uid"],
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + uid_list[4]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))

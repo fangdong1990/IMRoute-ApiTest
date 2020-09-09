@@ -50,6 +50,7 @@ class GetGroupInfo(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_GetGroupInfo",
             'uids': uid_list,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         t = int(time.time())                                                # 请求前获取时间
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
@@ -87,6 +88,7 @@ class GetGroupInfo(unittest.TestCase):
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -106,6 +108,7 @@ class GetGroupInfo(unittest.TestCase):
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -113,6 +116,47 @@ class GetGroupInfo(unittest.TestCase):
         assert "gid不能为空" in r.json()["msg"], r.json()['msg']
 
     def test_03_getGroupInfo(self):
+        """入参验证：msg_id入参缺失 """
+        code_url = self.url_common + self.get_group_info
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'gid': self.gid,
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert "msg_id不能为空" in r.json()["msg"], r.json()['msg']
+
+    def test_04_getGroupInfo(self):
+        """入参验证：msg_id入参为空'' """
+        code_url = self.url_common + self.get_group_info
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + ownerId
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert "msg_id不能为空" in r.json()["msg"], r.json()['msg']
+
+    def test_05_getGroupInfo(self):
         """入参验证：gid入参为空'' """
         code_url = self.url_common + self.get_group_info
         timestamp_13 = str(int(time.time()*1000))
@@ -126,13 +170,14 @@ class GetGroupInfo(unittest.TestCase):
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': '',
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert "gid不能为空" in r.json()["msg"], r.json()['msg']
 
-    def test_04_getGroupInfo(self):
+    def test_06_getGroupInfo(self):
         """入参验证：gid无效"""
         code_url = self.url_common + self.get_group_info
         timestamp_13 = str(int(time.time()*1000))

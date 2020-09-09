@@ -83,7 +83,7 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids4,
-            'msg_id': ''
+            'msg_id': timestamp_13+'_'+ownerId
         }
         t = int(time.time())
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
@@ -91,7 +91,7 @@ class CreateGroup(unittest.TestCase):
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ok", r.json()['msg']
         gid_ = r.json()["data"]["gid"]
-        assert t <= int(redis_.hget_(gb+gid_, "createAt")),[t, int(redis_.hget_(gb+gid_, "createAt"))]          # 校验时间戳为当前时间
+        assert t <= int(redis_.hget_(gb+gid_, "createAt")), [t, int(redis_.hget_(gb+gid_, "createAt"))]          # 校验时间戳为当前时间
         assert eval(redis_.hget_(gb+gid_, "owner")) == {"uid": ownerId, "alias": ""}, redis_.hget_(gb+gid_, "owner")
         self.assertEqual(redis_.hget_(gb+gid_, "gName"), ownerId+"_CreateGroup", redis_.hget_(gb+gid_, "gName"))
         # 校验群成员
@@ -132,6 +132,7 @@ class CreateGroup(unittest.TestCase):
         code_data = {
             'name': ownerId+"_CreateGroup",
             'uids': uids4,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -153,6 +154,7 @@ class CreateGroup(unittest.TestCase):
         code_data = {
             'ownerId': ownerId,
             'uids': uids4,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -174,6 +176,7 @@ class CreateGroup(unittest.TestCase):
         code_data = {
             'ownerId': ownerId,
             'name': ownerId + "_CreateGroup",
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -181,6 +184,51 @@ class CreateGroup(unittest.TestCase):
         assert r.json()["msg"] == "no arr", r.json()['msg']
 
     def test_07_createGroup(self):
+        """入参验证：msg_id字段缺失"""
+        code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'ownerId': ownerId,
+            'name': ownerId+"_CreateGroup",
+            'uids': uids4,
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_08_createGroup(self):
+        """入参验证：msg_id字段为'' """
+        code_url = self.url_common + self.create_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'ownerId': ownerId,
+            'name': ownerId+"_CreateGroup",
+            'uids': uids4,
+            'msg_id': ''
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_09_createGroup(self):
         """入参验证：ownerId入参为空'' """
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -196,13 +244,14 @@ class CreateGroup(unittest.TestCase):
             'ownerId': '',
             'name': ownerId+"_CreateGroup",
             'uids': uids4,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ownerId不能为空", r.json()['msg']
 
-    def test_08_createGroup(self):
+    def test_A0_createGroup(self):
         """入参验证：name入参为空'' """
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -218,6 +267,7 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': '',
             'uids': uids4,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -231,7 +281,7 @@ class CreateGroup(unittest.TestCase):
         lu.sort(key=lambda k: k.get("uid"))   # list排序
         assert st == lu, [st, lu]
 
-    def test_09_createGroup(self):
+    def test_A1_createGroup(self):
         """入参验证：uids入参为空[] """
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -247,13 +297,14 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': [],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "members number err", r.json()['msg']
 
-    def test_A0_createGroup(self):
+    def test_A2_createGroup(self):
         """入参验证：uids入参部分含alias"""
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -269,6 +320,7 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids_alias_part,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -282,7 +334,7 @@ class CreateGroup(unittest.TestCase):
         lu.sort(key=lambda k: k.get("uid"))   # list排序
         assert st == lu, [st, lu]
 
-    def test_A1_createGroup(self):
+    def test_A3_createGroup(self):
         """入参验证：uids入参全部含alias"""
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -298,6 +350,7 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids_alias_all,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -311,7 +364,7 @@ class CreateGroup(unittest.TestCase):
         lu.sort(key=lambda k: k.get("uid"))   # list排序
         assert st == lu, [st, lu]
 
-    def test_A2_createGroup(self):
+    def test_A4_createGroup(self):
         """业务逻辑验证：添加群成员uids为1 """
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -327,13 +380,14 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids1,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "members number err", r.json()['msg']
 
-    def test_A3_createGroup(self):
+    def test_A5_createGroup(self):
         """业务逻辑验证：添加群成员uids为2 """
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -349,6 +403,7 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids2,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -362,7 +417,7 @@ class CreateGroup(unittest.TestCase):
         lu.sort(key=lambda k: k.get("uid"))   # list排序
         assert st == lu, [st, lu]
 
-    def test_A4_createGroup(self):
+    def test_A6_createGroup(self):
         """业务逻辑验证：添加群成员uids为3"""
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -378,6 +433,7 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids3,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -391,7 +447,7 @@ class CreateGroup(unittest.TestCase):
         lu.sort(key=lambda k: k.get("uid"))   # list排序
         assert st == lu, [st, lu]
 
-    def test_A5_createGroup(self):
+    def test_A7_createGroup(self):
         """业务逻辑验证：添加群人员uids为lots(61)"""
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -407,6 +463,7 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids_lots,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -420,7 +477,7 @@ class CreateGroup(unittest.TestCase):
         lu.sort(key=lambda k: k.get("uid"))   # list排序
         assert st == lu, [st, lu]
 
-    def test_A6_createGroup(self):
+    def test_A8_createGroup(self):
         """业务逻辑验证：建群uids(3)含ownerId-可建群成功"""
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -436,6 +493,7 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids_ownerId,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         gid_key = gb+r.json()["data"]["gid"]
@@ -450,7 +508,7 @@ class CreateGroup(unittest.TestCase):
         lu.sort(key=lambda k: k.get("uid"))   # list排序
         assert st == lu, [st, lu]
 
-    def test_A7_createGroup(self):
+    def test_A9_createGroup(self):
         """业务逻辑验证：建群uids(3)中含重复成员2-去除重复人员后建群"""
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -466,6 +524,7 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids5,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         gid_key = gb + r.json()["data"]["gid"]
@@ -479,7 +538,7 @@ class CreateGroup(unittest.TestCase):
         lu.sort(key=lambda k: k.get("uid"))   # list排序
         assert st == lu, [st, lu]
 
-    def test_A8_createGroup(self):
+    def test_B0_createGroup(self):
         """业务逻辑验证：建群uids(2)中含重复成员2"""
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -495,13 +554,14 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids6,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "members number err", r.json()['msg']
 
-    def test_A9_createGroup(self):
+    def test_B1_createGroup(self):
         """业务逻辑验证：建群uids(2)含ownerId"""
         code_url = self.url_common + self.create_group
         timestamp_13 = str(int(time.time()*1000))
@@ -517,6 +577,7 @@ class CreateGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_CreateGroup",
             'uids': uids7,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))

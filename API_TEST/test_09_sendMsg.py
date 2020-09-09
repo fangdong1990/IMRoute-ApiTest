@@ -10,7 +10,7 @@ import time
 # 数据使用范围dqy0101-dqy0200
 ownerId = "dqy0701"
 uid_list = [{"uid": "dqy0705"}, {"uid": "dqy0702"}, {"uid": "dqy0703"}, {"uid": "dqy0704"},
-{"uid": "dqy0706"}, {"uid": "dqy0707"}, {"uid": "dqy0708"}, {"uid": "dqy0709"}]
+            {"uid": "dqy0706"}, {"uid": "dqy0707"}, {"uid": "dqy0708"}, {"uid": "dqy0709"}]
 
 # redis数据存贮
 gb = "td_group:g_id:"                  # 群标识
@@ -52,17 +52,16 @@ class SendMsg(unittest.TestCase):
             "timestamp": timestamp_13,
             "sign": get_md5.get_md5_value(ownerId+timestamp_13+cls.key)
                    }
-        print(">>>请求头：", headers)
         code_data = {
             'ownerId': ownerId,
             'name': ownerId+"_AddMember",
             'uids': uid_list,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
-        t = int(time.time())                                                # 请求前获取时间
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         assert r.json()["msg"] == "ok", r.json()['msg']
         cls.gid = r.json()["data"]["gid"]
-        # # 校验时间戳
+        # 校验时间戳
         # assert t <= int(redis_.hget_(gb+cls.gid, "createAt")) < t+10
         # 校验群主
         assert eval(redis_.hget_(gb+cls.gid, "owner")) == {"uid": ownerId, "alias": ""}, redis_.hget_(gb+cls.gid, "owner")
@@ -84,34 +83,36 @@ class SendMsg(unittest.TestCase):
         """通过性验证：所有参数正常传入group0、type1"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
+        msg_id = timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         headers = {
             "Content-Type": "application/json",
             "uid": ownerId,
             "timestamp": timestamp_13,
             "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
                    }
-        print(">>>请求头：", headers)
-        print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            'data': "{'var1': 'is_text_type_01','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_01','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': msg_id
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ok", r.json()['msg']
-        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], str(timestamp13)), timestamp13)     # 判断key存在
-        assert 'is_text_type_01' in redis_.hget_(tn+uid_list[0]["uid"], str(timestamp13)), redis_.hget_(tn+uid_list[0]["uid"], str(timestamp13))     # 验证消息已储存
+        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], msg_id), msg_id)     # 判断key存在,不存在，则打印key
+        assert 'is_text_type_01' in redis_.hget_(tn+uid_list[0]["uid"], msg_id), redis_.hget_(tn+uid_list[0]["uid"], msg_id)     # 验证消息已储存
 
     def test_02_sendMsg(self):
         """入参验证：from_uid字段缺失"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
+        msg_id = timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         headers = {
             "Content-Type": "application/json",
             "uid": ownerId,
@@ -120,13 +121,13 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            'data': "{'var1': 'is_text_type_02','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_02','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': msg_id
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -145,13 +146,13 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'group': 0,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            'data': "{'var1': 'is_text_type_03','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_03','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -170,13 +171,13 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            'data': "{'var1': 'is_text_type_04','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_04','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -195,13 +196,13 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
-            'time': timestamp13,
-            'data': "{'var1': 'is_text_type_05','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_05','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -220,13 +221,13 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'data': "{'var1': 'is_text_type_06','var2': '','var3': '','var4': '','var5': ''}"
+            'data': "{'var1': 'is_text_type_06','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -245,13 +246,13 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
+            'time': timestamp_13,
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -259,6 +260,57 @@ class SendMsg(unittest.TestCase):
         assert r.json()["msg"] == "data不能为空", r.json()['msg']
 
     def test_08_sendMsg(self):
+        """入参验证：msg_id字段缺失"""
+        code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'from_uid': ownerId,
+            'to_uid': uid_list[0]["uid"],
+            'group': 0,              # 0-单聊，1-群聊
+            'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_07','var2': '','var3': '','var4': '','var5': ''}",
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_09_sendMsg(self):
+        """入参验证：msg_id字段为'' """
+        code_url = self.url_common + self.send_msg
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'from_uid': ownerId,
+            'to_uid': uid_list[0]["uid"],
+            'group': 0,              # 0-单聊，1-群聊
+            'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_07','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': ''
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_A0_sendMsg(self):
         """入参验证：from_uid入参空'' """
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
@@ -270,21 +322,21 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': '',
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            'data': "{'var1': 'is_text_type_07','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_07','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "from_uid不能为空", r.json()['msg']
 
-    def test_09_sendMsg(self):
+    def test_A1_sendMsg(self):
         """入参验证：to_uid入参空'' """
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
@@ -296,21 +348,21 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': '',
             'group': 0,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            'data': "{'var1': 'is_text_type_08','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_08','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "to_uid不能为空", r.json()['msg']
 
-    def test_A0_sendMsg(self):
+    def test_A2_sendMsg(self):
         """入参验证：group入参空'' """
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
@@ -322,21 +374,21 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': '',              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            'data': "{'var1': 'is_text_type_09','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_09','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
-        assert r.json()["msg"] == "group只能是0或1", r.json()['msg']
+        assert r.json()["msg"] == "group不能为空", r.json()['msg']
 
-    def test_A1_sendMsg(self):
+    def test_A3_sendMsg(self):
         """入参验证：type入参空'' """
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
@@ -348,21 +400,21 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': '',               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            'data': "{'var1': 'is_text_type_10','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            'data': "{'var1': 'is_text_type_10','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "type不能为空", r.json()['msg']
 
-    def test_A2_sendMsg(self):
+    def test_A4_sendMsg(self):
         """入参验证：time入参空'' """
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
@@ -374,21 +426,21 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
             'time': '',
-            'data': "{'var1': 'is_text_type_11','var2': '','var3': '','var4': '','var5': ''}"
+            'data': "{'var1': 'is_text_type_11','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "time不能为空", r.json()['msg']
 
-    def test_A3_sendMsg(self):
+    def test_A5_sendMsg(self):
         """入参验证：data入参空'' """
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
@@ -400,21 +452,21 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            'data': ''
+            'time': timestamp_13,
+            'data': '',
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "data不能为空", r.json()['msg']
 
-    def test_A4_sendMsg(self):
+    def test_A5_sendMsg(self):
         """业务逻辑： type0：发送cmd消息"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
@@ -426,25 +478,26 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 0,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            'data': "{'var1': 'is_cmd_type_01','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            'data': "{'var1': 'is_cmd_type_01','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ok", r.json()['msg']
-        self.assertFalse(redis_.hexists_(tn+uid_list[0]["uid"], str(timestamp13)), timestamp13)     # 判断key不存在
+        self.assertFalse(redis_.hexists_(tn+uid_list[0]["uid"], str(timestamp_13)), timestamp_13)     # 判断key不存在
 
-    def test_A5_sendMsg(self):
+    def test_A7_sendMsg(self):
         """业务逻辑： type2：发送image消息"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
+        msg_id=timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         headers = {
             "Content-Type": "application/json",
             "uid": ownerId,
@@ -453,25 +506,26 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 2,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
+            'time': timestamp_13,
             "data": "{  \"var2\" : \"c2flL7IT8+RgyxzE4RxVc8nfGKFb5bcpjvavfXBt70jTk7wkPAUJi8fIQ9pu\\\/5ofyAw57gT93h\\\/2UaYokfjNug==\",  \"var5\" : \"\",  \"var3\" : \"image.jpeg\",  \"var1\" : \"c2flL7IT8+RgyxzE4RxVcxvt65d5fsKmAg8+VDZXLcuRYaK2NFem26iYDJZJrNMoyAw57gT93h\\\/2UaYokfjNug==\",  \"var4\" : \"\"}",
+            'msg_id': msg_id
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ok", r.json()['msg']
-        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], str(timestamp13)), timestamp13)     # 判断key存在
+        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], msg_id), msg_id)     # 判断key存在
 
-    def test_A6_sendMsg(self):
+    def test_A8_sendMsg(self):
         """业务逻辑： type3：发送audio消息"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
+        msg_id = timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         headers = {
             "Content-Type": "application/json",
             "uid": ownerId,
@@ -480,25 +534,26 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 3,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
+            'time': timestamp_13,
             "data": "{  \"var2\" : \"1\",  \"var5\" : \"\",  \"var3\" : \"\",  \"var1\" : \"c2flL7IT8+RgyxzE4RxVc5lFM64IEXIfcgFYBA2WARLMeECeiuUW5hHLb09y5i\\\/hbvW\\\/U4zF+BaVmk\\\/g5mD09A==\",  \"var4\" : \"\"}",
+            'msg_id': msg_id
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ok", r.json()['msg']
-        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], str(timestamp13)), timestamp13)     # 判断key存在
+        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], msg_id), msg_id)     # 判断key存在
 
-    def test_A7_sendMsg(self):
+    def test_A9_sendMsg(self):
         """业务逻辑： type4：发送video消息"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
+        msg_id = timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         headers = {
             "Content-Type": "application/json",
             "uid": ownerId,
@@ -507,25 +562,26 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 4,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
+            'time': timestamp_13,
             "data": "{  \"var2\" : \"c2flL7IT8+RgyxzE4RxVc6VjdXcWTBE02Nf1F0MRJB3NN4eSPsOZBBvnVZQ\\\/RTBpyAw57gT93h\\\/2UaYokfjNug==\",  \"var5\" : \"\",  \"var3\" : \"video.mp4.mp4\",  \"var1\" : \"c2flL7IT8+RgyxzE4RxVc38GRp2fepoHtiV9wJEfq6AW2kDB0RPMD1N9aMzE9T7aKPOu608vpr73\\\/IDiN6AuGw==\",  \"var4\" : \"0\"}",
+            'msg_id': msg_id
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ok", r.json()['msg']
-        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], str(timestamp13)), timestamp13)     # 判断key存在
+        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], msg_id), msg_id)     # 判断key存在
 
-    def test_A8_sendMsg(self):
+    def test_B0_sendMsg(self):
         """业务逻辑： type5：发送file消息"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
+        msg_id=timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         headers = {
             "Content-Type": "application/json",
             "uid": ownerId,
@@ -534,25 +590,26 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 5,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
+            'time': timestamp_13,
             "data": "{  \"var2\" : \"c2flL7IT8+RgyxzE4RxVc6VjdXcWTBE02Nf1F0MRJB3NN4eSPsOZBBvnVZQ\\\/RTBpyAw57gT93h\\\/2UaYokfjNug==\",  \"var5\" : \"\",  \"var3\" : \"video.mp4.mp4\",  \"var1\" : \"c2flL7IT8+RgyxzE4RxVc38GRp2fepoHtiV9wJEfq6AW2kDB0RPMD1N9aMzE9T7aKPOu608vpr73\\\/IDiN6AuGw==\",  \"var4\" : \"0\"}",
+            'msg_id':msg_id
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ok", r.json()['msg']
-        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], str(timestamp13)), timestamp13)     # 判断key存在
+        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], msg_id), msg_id)     # 判断key存在
 
-    def test_A9_sendMsg(self):
+    def test_B1_sendMsg(self):
         """业务逻辑： type6：发送position消息"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
+        msg_id = timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         headers = {
             "Content-Type": "application/json",
             "uid": ownerId,
@@ -561,23 +618,22 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 6,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
+            'time': timestamp_13,
             "data": "{  \"var2\" : \"120.3863338595745\",  \"var5\" : \"\",  \"var3\" : \"永康路3号\",  \"var1\" : \"36.1739649370593\",  \"var4\" : \"\"}",
+            'msg_id': msg_id
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ok", r.json()['msg']
-        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], str(timestamp13)), timestamp13)     # 判断key存在
-        # assert '永康路3号' in redis_.hget_(tn+uid_list[0]["uid"], str(timestamp13)), redis_.hget_(tn+uid_list[0]["uid"], str(timestamp13))     # 验证消息已储存
+        self.assertTrue(redis_.hexists_(tn+uid_list[0]["uid"], msg_id), msg_id)     # 判断key存在
 
-    def test_B0_sendMsg(self):
+    def test_B2_sendMsg(self):
         """业务逻辑： type100：无效"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
@@ -589,21 +645,21 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': uid_list[0]["uid"],
             'group': 0,              # 0-单聊，1-群聊
             'type': 100,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
+            'time': timestamp_13,
             "data": "{  \"var2\" : \"120.3863338595745\",  \"var5\" : \"\",  \"var3\" : \"永康路3号\",  \"var1\" : \"36.1739649370593\",  \"var4\" : \"\"}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + uid_list[0]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "type只能是0至15之间的整数", r.json()['msg']
 
-    def test_B1_sendMsg(self):
+    def test_B3_sendMsg(self):
         """业务逻辑：发送群消息"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
@@ -615,21 +671,21 @@ class SendMsg(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': ownerId,
             'to_uid': self.gid,
             'group': 1,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            "data": "{'var1': 'is_test_type_group','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            "data": "{'var1': 'is_test_type_group','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + self.gid
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ok", r.json()['msg']
 
-    def test_B2_sendMsg(self):
+    def test_B4_sendMsg(self):
         """业务逻辑：from_uid非群成员"""
         code_url = self.url_common + self.send_msg
         timestamp_13 = str(int(time.time()*1000))
@@ -642,14 +698,14 @@ class SendMsg(unittest.TestCase):
         print(">>>请求头：", headers)
         print(">>>群成员："+redis_.hget_(gb+self.gid, "members"))
         print('>>>请求地址：', code_url)
-        timestamp13 = int(time.time()*1000)
         code_data = {
             'from_uid': "dqy0002",
             'to_uid': self.gid,
             'group': 1,              # 0-单聊，1-群聊
             'type': 1,               # 0-cmd，1-text，2-image，3-audio，4-video，5-file，6-position
-            'time': timestamp13,
-            "data": "{'var1': 'is_test_type_group','var2': '','var3': '','var4': '','var5': ''}"
+            'time': timestamp_13,
+            "data": "{'var1': 'is_test_type_group','var2': '','var3': '','var4': '','var5': ''}",
+            'msg_id': timestamp_13 + '_' + ownerId + '_' + self.gid
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))

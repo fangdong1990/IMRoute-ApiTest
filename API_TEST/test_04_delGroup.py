@@ -56,6 +56,7 @@ class DelGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"delGroup",
             'uids': uid_list,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         t = int(time.time())                                                # 请求前获取时间
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
@@ -94,6 +95,7 @@ class DelGroup(unittest.TestCase):
         code_data = {
             'ownerId': ownerId,
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -136,6 +138,7 @@ class DelGroup(unittest.TestCase):
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -156,6 +159,7 @@ class DelGroup(unittest.TestCase):
         print('>>>请求地址：', code_url)
         code_data = {
             'ownerId': ownerId,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -163,6 +167,49 @@ class DelGroup(unittest.TestCase):
         assert r.json()["msg"] == "gid不能为空", r.json()['msg']
 
     def test_06_delGroup(self):
+        """入参验证：msg_id字段缺失"""
+        code_url = self.url_common + self.del_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'ownerId': ownerId,
+            'gid': self.gid,
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_07_delGroup(self):
+        """入参验证：msg_id字段为空"""
+        code_url = self.url_common + self.del_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'ownerId': ownerId,
+            'gid': self.gid,
+            'msg_id': ''
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_08_delGroup(self):
         """入参验证：ownerId入参为空''"""
         code_url = self.url_common + self.del_group
         timestamp_13 = str(int(time.time()*1000))
@@ -177,13 +224,14 @@ class DelGroup(unittest.TestCase):
         code_data = {
             'ownerId': '',
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "ownerId不能为空", r.json()['msg']
 
-    def test_07_delGroup(self):
+    def test_09_delGroup(self):
         """入参验证：gid入参为空''"""
         code_url = self.url_common + self.del_group
         timestamp_13 = str(int(time.time()*1000))
@@ -198,13 +246,14 @@ class DelGroup(unittest.TestCase):
         code_data = {
             'ownerId': ownerId,
             'gid': '',
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "gid不能为空", r.json()['msg']
 
-    def test_08_delGroup(self):
+    def test_A0_delGroup(self):
         """入参验证：gid无效"""
         code_url = self.url_common + self.del_group
         timestamp_13 = str(int(time.time()*1000))
@@ -219,13 +268,14 @@ class DelGroup(unittest.TestCase):
         code_data = {
             'ownerId': ownerId,
             'gid': '$12345678901234567890123456789011',
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "gid or ownerId  is err", r.json()['msg']
 
-    def test_09_delGroup(self):
+    def test_A1_delGroup(self):
         """入参验证：ownerId无效"""
         code_url = self.url_common + self.del_group
         timestamp_13 = str(int(time.time()*1000))
@@ -240,6 +290,7 @@ class DelGroup(unittest.TestCase):
         code_data = {
             'ownerId': 'dqywjfksf',
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))

@@ -56,6 +56,7 @@ class AelMember(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"_delMember",
             'uids': uid_list,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         t = int(time.time())                                                # 请求前获取时间
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
@@ -95,6 +96,7 @@ class AelMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': [uid_list[1]],      # 删除dqy0302
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -135,6 +137,7 @@ class AelMember(unittest.TestCase):
         code_data = {
             'gid': self.gid,
             'uids':  [uid_list[2]],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -156,6 +159,7 @@ class AelMember(unittest.TestCase):
         code_data = {
             'ownerId': ownerId,
             'uids':  [uid_list[2]],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -177,6 +181,7 @@ class AelMember(unittest.TestCase):
         code_data = {
             'ownerId': ownerId,
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -184,6 +189,51 @@ class AelMember(unittest.TestCase):
         assert r.json()["msg"] == "params null", r.json()['msg']
 
     def test_07_delMember(self):
+        """入参验证：msg_id字段缺失"""
+        code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'ownerId': ownerId,
+            'gid': self.gid,
+            'uids':  [uid_list[2]],
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_08_delMember(self):
+        """入参验证：msg_id字段未缺失"""
+        code_url = self.url_common + self.del_member
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": ownerId,
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'ownerId': ownerId,
+            'gid': self.gid,
+            'uids':  [uid_list[2]],
+            'msg_id': ''
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_09_delMember(self):
         """入参验证：ownerId入参为空''"""
         code_url = self.url_common + self.del_member
         timestamp_13 = str(int(time.time()*1000))
@@ -199,13 +249,14 @@ class AelMember(unittest.TestCase):
             'ownerId': '',
             'gid': self.gid,
             'uids': [uid_list[2]],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "onwerId不能为空", r.json()['msg']
 
-    def test_08_delMember(self):
+    def test_A0_delMember(self):
         """入参验证：gid入参为空''"""
         code_url = self.url_common + self.del_member
         timestamp_13 = str(int(time.time()*1000))
@@ -221,13 +272,14 @@ class AelMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': '',
             'uids':  [uid_list[2]],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "gid不能为空", r.json()['msg']
 
-    def test_09_delMember(self):
+    def test_A1_delMember(self):
         """入参验证：uids入参为空''"""
         code_url = self.url_common + self.del_member
         timestamp_13 = str(int(time.time()*1000))
@@ -243,13 +295,14 @@ class AelMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': [],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "params null", r.json()['msg']
 
-    def test_A0_delMember(self):
+    def test_A2_delMember(self):
         """入参验证：gid无效''"""
         code_url = self.url_common + self.del_member
         timestamp_13 = str(int(time.time()*1000))
@@ -265,13 +318,14 @@ class AelMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': '$12345678901234567890123456789011',
             'uids':  [uid_list[2]],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "not group owner", r.json()['msg']
 
-    def test_A1_delMember(self):
+    def test_A3_delMember(self):
         """业务逻辑验证：删除人员(单个)非本群人员"""
         code_url = self.url_common + self.del_member
         timestamp_13 = str(int(time.time()*1000))
@@ -288,6 +342,7 @@ class AelMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': [{"uid": "dqy0101"}],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -295,7 +350,7 @@ class AelMember(unittest.TestCase):
         assert r.json()["msg"] == "non-members or owner cannot be deleted", r.json()['msg']
         assert [{"uid": "dqy0101"}] not in eval(redis_.hget_(gb + self.gid, "members")), [uid_list[1], uid_list,redis_.hget_(gb + self.gid,"members")]  # 校验该群员不存在
 
-    def test_A2_delMember(self):
+    def test_A4_delMember(self):
         """业务逻辑验证：删除人员(多个)为本群人员"""
         code_url = self.url_common + self.del_member
         timestamp_13 = str(int(time.time()*1000))
@@ -307,11 +362,13 @@ class AelMember(unittest.TestCase):
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
+        print('>>>群成员：', eval(redis_.hget_(gb+self.gid, "members")))
         print('>>>删除人员列表：', uid_list[2:4])
         code_data = {
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': uid_list[2:4],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -319,7 +376,7 @@ class AelMember(unittest.TestCase):
         assert r.json()["msg"] == "ok", r.json()['msg']
         assert uid_list[2:4] not in eval(redis_.hget_(gb+self.gid, "members")), [uid_list[1], uid_list, redis_.hget_(gb+self.gid, "members")]    # 校验该群员已经删除
 
-    def test_A3_delMember(self):
+    def test_A5_delMember(self):
         """业务逻辑验证：删除人员(多个)中存在非本群人员"""
         code_url = self.url_common + self.del_member
         timestamp_13 = str(int(time.time()*1000))
@@ -335,13 +392,14 @@ class AelMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': [{"uid": "dqy0305"}, {"uid": "dqy0102"}],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "non-members or owner cannot be deleted", r.json()['msg']
 
-    def test_A4_delMember(self):
+    def test_A6_delMember(self):
         """业务逻辑验证：非群主不可删除本群人员"""
         code_url = self.url_common + self.del_member
         timestamp_13 = str(int(time.time()*1000))
@@ -357,13 +415,14 @@ class AelMember(unittest.TestCase):
             'ownerId': uid_list[5]["uid"],
             'gid': self.gid,
             'uids': [uid_list[6]],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "not group owner", r.json()['msg']
 
-    def test_A5_delMember(self):
+    def test_A7_delMember(self):
         """业务逻辑验证：不可删除群主"""
         code_url = self.url_common + self.del_member
         timestamp_13 = str(int(time.time()*1000))
@@ -379,6 +438,7 @@ class AelMember(unittest.TestCase):
             'ownerId': ownerId,
             'gid': self.gid,
             'uids': [{"uid": ownerId}],
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))

@@ -17,5 +17,5 @@ def get_md5_value(str):
 
 
 if __name__ == "__main__":
-    a=get_md5_value("dsjfisjdkokdogkog")
+    a=get_md5_value("dqy0001159886717978548b91c0476537498157e5f9c06d2f77cdd3cdd68")
     print(a)

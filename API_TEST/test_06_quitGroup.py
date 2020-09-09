@@ -57,6 +57,7 @@ class QuitGroup(unittest.TestCase):
             'ownerId': ownerId,
             'name': ownerId+"create_group",
             'uids': uid_list,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         t = int(time.time())                                                # 请求前获取时间
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
@@ -88,13 +89,14 @@ class QuitGroup(unittest.TestCase):
             "Content-Type": "application/json",
             "uid": uid_list[1]["uid"],
             "timestamp": timestamp_13,
-            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+            "sign": get_md5.get_md5_value(uid_list[1]["uid"]+timestamp_13+self.key)
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': uid_list[1]["uid"],
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -127,12 +129,13 @@ class QuitGroup(unittest.TestCase):
             "Content-Type": "application/json",
             "uid": uid_list[1]["uid"],
             "timestamp": timestamp_13,
-            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+            "sign": get_md5.get_md5_value(uid_list[1]["uid"]+timestamp_13+self.key)
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -147,12 +150,13 @@ class QuitGroup(unittest.TestCase):
             "Content-Type": "application/json",
             "uid": uid_list[2]["uid"],
             "timestamp": timestamp_13,
-            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+            "sign": get_md5.get_md5_value(uid_list[2]["uid"]+timestamp_13+self.key)
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': uid_list[2]["uid"],
+            'msg_id': timestamp_13 + '_' + uid_list[2]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -160,6 +164,51 @@ class QuitGroup(unittest.TestCase):
         assert r.json()["msg"] == "gid不能为空", r.json()['msg']
 
     def test_06_quitGroup(self):
+        """通过性验证：msg_id字段缺失"""
+        code_url = self.url_common + self.quit_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": uid_list[1]["uid"],
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(uid_list[1]["uid"]+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'uid': uid_list[1]["uid"],
+            'gid': self.gid,
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        print(">>>群成员list：", redis_.hget_(gb+self.gid, "members"))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_07_quitGroup(self):
+        """通过性验证：msg_id入参为空''"""
+        code_url = self.url_common + self.quit_group
+        timestamp_13 = str(int(time.time()*1000))
+        headers = {
+            "Content-Type": "application/json",
+            "uid": uid_list[1]["uid"],
+            "timestamp": timestamp_13,
+            "sign": get_md5.get_md5_value(uid_list[1]["uid"]+timestamp_13+self.key)
+                   }
+        print(">>>请求头：", headers)
+        print('>>>请求地址：', code_url)
+        code_data = {
+            'uid': uid_list[1]["uid"],
+            'gid': self.gid,
+            'msg_id': ''
+        }
+        r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
+        print('>>>请求参数：', json.dumps(code_data))
+        print(">>>群成员list：", redis_.hget_(gb+self.gid, "members"))
+        self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
+        assert r.json()["msg"] == "msg_id不能为空", r.json()['msg']
+
+    def test_08_quitGroup(self):
         """入参验证：uid入参为空'' """
         code_url = self.url_common + self.quit_group
         timestamp_13 = str(int(time.time()*1000))
@@ -167,20 +216,21 @@ class QuitGroup(unittest.TestCase):
             "Content-Type": "application/json",
             "uid": uid_list[1]["uid"],
             "timestamp": timestamp_13,
-            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+            "sign": get_md5.get_md5_value(uid_list[1]["uid"]+timestamp_13+self.key)
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': '',
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "uid不能为空", r.json()['msg']
 
-    def test_07_quitGroup(self):
+    def test_09_quitGroup(self):
         """入参验证：gid入参为空''"""
         code_url = self.url_common + self.quit_group
         timestamp_13 = str(int(time.time()*1000))
@@ -188,20 +238,21 @@ class QuitGroup(unittest.TestCase):
             "Content-Type": "application/json",
             "uid": uid_list[1]["uid"],
             "timestamp": timestamp_13,
-            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+            "sign": get_md5.get_md5_value(uid_list[1]["uid"]+timestamp_13+self.key)
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': uid_list[1]["uid"],
             'gid': '',
+            'msg_id': timestamp_13 + '_' + uid_list[1]["uid"]
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "gid不能为空", r.json()['msg']
 
-    def test_08_quitGroup(self):
+    def test_A0_quitGroup(self):
         """业务逻辑：uid不属于本群"""
         code_url = self.url_common + self.quit_group
         timestamp_13 = str(int(time.time()*1000))
@@ -209,13 +260,14 @@ class QuitGroup(unittest.TestCase):
             "Content-Type": "application/json",
             "uid": 'dqy0101',
             "timestamp": timestamp_13,
-            "sign": get_md5.get_md5_value(ownerId+timestamp_13+self.key)
+            "sign": get_md5.get_md5_value('dqy0101'+timestamp_13+self.key)
                    }
         print(">>>请求头：", headers)
         print('>>>请求地址：', code_url)
         code_data = {
             'uid': 'dqy0101',
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + 'dqy0101'
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
@@ -223,7 +275,7 @@ class QuitGroup(unittest.TestCase):
         self.result = json.dumps(r.json(), sort_keys=True, indent=4, ensure_ascii=False)
         assert r.json()["msg"] == "non-members or owner does not degroup", r.json()['msg']
 
-    def test_09_quitGroup(self):
+    def test_A1_quitGroup(self):
         """业务逻辑：群主不能退群"""
         code_url = self.url_common + self.quit_group
         timestamp_13 = str(int(time.time()*1000))
@@ -238,6 +290,7 @@ class QuitGroup(unittest.TestCase):
         code_data = {
             'uid': ownerId,
             'gid': self.gid,
+            'msg_id': timestamp_13 + '_' + ownerId
         }
         r = requests.post(url=code_url, data=json.dumps(code_data), headers=headers)
         print('>>>请求参数：', json.dumps(code_data))
