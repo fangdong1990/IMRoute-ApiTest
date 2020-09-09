@@ -14,7 +14,7 @@ def allTests():
     # path = './API_TEST'
     path = './API_TEST'
     # print(path)
-    suit = unittest.defaultTestLoader.discover(path, pattern='test_09*.py')
+    suit = unittest.defaultTestLoader.discover(path, pattern='test_*.py')
     return suit
 
 

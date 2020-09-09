@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>IM-API自动化测试报告</title>
+    <meta name="generator" content="HTMLTestRunner 0.8.2"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/Chart.js/0.2.0/Chart.min.js"></script>
+    <!-- <link href="https://cdn.bootcss.com/echarts/3.8.5/echarts.common.min.js" rel="stylesheet">   -->
+    
+    
+<style type="text/css" media="screen">
+body        { font-family: verdana, arial, helvetica, sans-serif; font-size: 80%; }
+table       { font-size: 100%; }
+pre         {  }
+
+/* -- heading ---------------------------------------------------------------------- */
+h1 {
+	font-size: 16pt;
+	color: gray;
+}
+.heading {
+    margin-top: 0ex;
+    margin-bottom: 1ex;
+	margin-left: 10px;
+}
+
+.heading .attribute {
+    margin-top: 1ex;
+    margin-bottom: 0;
+}
+
+.heading .description {
+    margin-top: 4ex;
+    margin-bottom: 6ex;
+}
+
+/* -- css div popup ------------------------------------------------------------------------ */
+a.popup_link {
+}
+
+a.popup_link:hover {
+    color: red;
+}
+
+.popup_window {
+    display: none;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    /*border: solid #627173 1px; */
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    text-align: left;
+    font-size: 8pt;
+    width: 500px;
+}
+
+}
+/* -- report ------------------------------------------------------------------------ */
+#show_detail_line {
+    margin-top: 3ex;
+    margin-bottom: 1ex;
+    margin-left: 10px;
+}
+#result_table {
+    width: 80%;
+    border-collapse: collapse;
+    border: 1px solid #777;
+    margin-left: 10px;
+}
+#header_row {
+    font-weight: bold;
+    color: #606060;
+    background-color: #f5f5f5;
+    border-top-width: 10px;
+    border-color: #d6e9c6;
+	font-size: 12px;
+}
+#result_table td {
+    border: 1px solid #f5f5f5;
+    padding: 2px;
+
+}
+#total_row  { font-weight: bold; }
+.passClass  { background-color: #d6e9c6; }
+.failClass  { background-color: #faebcc; }
+.errorClass { background-color: #ebccd1; }
+.passCase   { color: #6c6; }
+.failCase   { color: #c60; font-weight: bold; }
+.errorCase  { color: #c00; font-weight: bold; }
+.hiddenRow  { display: none; }
+.testcase   { margin-left: 2em; }
+
+
+/* -- ending ---------------------------------------------------------------------- */
+#ending {
+}
+
+/* -- chars ---------------------------------------------------------------------- */
+.testChars {margin-left: 150px;}
+
+.btn-info1 {
+    color: #fff;
+    background-color: #d6e9c6;
+    border-color: #d6e9c6;
+}
+
+.btn-info2 {
+    color: #fff;
+    background-color: #faebcc;
+    border-color: #faebcc;
+}
+
+.btn-info3 {
+    color: #fff;
+    background-color: #ebccd1;
+    border-color: #ebccd1;
+}
+</style>
+
+</head>
+<body>
+<script language="javascript" type="text/javascript"><!--
+output_list = Array();
+
+/* level - 0:Summary; 1:Failed; 2:All */
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level < 1) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level > 1) {
+                tr.className = '';
+            }
+            else {
+                tr.className = 'hiddenRow';
+            }
+        }
+    }
+}
+
+
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        tid0 = 't' + cid.substr(1) + '.' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        if (toHide) {
+            document.getElementById('div_'+tid).style.display = 'none'
+            document.getElementById(tid).className = 'hiddenRow';
+        }
+        else {
+            document.getElementById(tid).className = '';
+        }
+    }
+}
+
+
+function showTestDetail(div_id){
+    var details_div = document.getElementById(div_id)
+    var displayState = details_div.style.display
+    // alert(displayState)
+    if (displayState != 'block' ) {
+        displayState = 'block'
+        details_div.style.display = 'block'
+    }
+    else {
+        details_div.style.display = 'none'
+    }
+}
+
+
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+
+/* obsoleted by detail in <div>
+function showOutput(id, name) {
+    var w = window.open("", //url
+                    name,
+                    "resizable,scrollbars,status,width=800,height=450");
+    d = w.document;
+    d.write("<pre>");
+    d.write(html_escape(output_list[id]));
+    d.write("\n");
+    d.write("<a href='javascript:window.close()'>close</a>\n");
+    d.write("</pre>\n");
+    d.close();
+}
+*/
+--></script>
+
+<div class='heading'>
+<h1>IM-API自动化测试报告</h1>
+<p class='attribute'><strong>Start Time:</strong> 2020-09-09 12:32:21</p>
+<p class='attribute'><strong>Duration:</strong> 0:00:02.097243</p>
+<p class='attribute'><strong>Status:</strong> Pass 22 Failure 1</p>
+
+<p class='description'>域名：http://imbj01.tdweilai.com</p>
+</div>
+
+<div style="float:left; margin-left: 10px;">
+	<p> Test Case Pie charts </p>
+	<a class="btn btn-xs btn-info1">-Pass-</a><br>
+	<a class="btn btn-xs btn-info2">-Faild-</a><br>
+	<a class="btn btn-xs btn-info3">-Error-</a><br>
+</div>
+
+<div class="testChars">
+	<canvas id="myChart" width="250" height="250"></canvas>
+</div>
+
+
+
+<p id='show_detail_line' style="margin-left: 10px;">Show
+<a href='javascript:showCase(0)' class="btn btn-xs btn-primary">Summary</a>
+<a href='javascript:showCase(1)' class="btn btn-xs btn-danger">Failed</a>
+<a href='javascript:showCase(2)' class="btn btn-xs btn-info">All</a>
+</p>
+<table id='result_table'>
+<colgroup>
+<col align='left' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+</colgroup>
+<tr id='header_row' class="panel-title">
+    <td>Test Group/Test case</td>
+    <td>Count</td>
+    <td>Pass</td>
+    <td>Fail</td>
+    <td>Error</td>
+    <td>View</td>
+</tr>
+
+<tr class='failClass'>
+    <td>test_09_sendMsg.SendMsg: 发送消息</td>
+    <td>23</td>
+    <td>22</td>
+    <td>1</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c1',23)">Detail</a></td>
+</tr>
+
+<tr id='pt1.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_01_sendMsg: 通过性验证：所有参数正常传入group0、type1</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.1')" >
+        pass</a>
+
+    <div id='div_pt1.1' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.1').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.1: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625942732', 'sign': '57e6a429b8b1688d778238b01e8fba57'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 1, "time": "1599625942732", "data": "{'var1': 'is_text_type_01','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625942732_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "0",
+    "msg": "ok"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_02_sendMsg: 入参验证：from_uid字段缺失</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.2')" >
+        pass</a>
+
+    <div id='div_pt1.2' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.2').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.2: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625942810', 'sign': 'af926ceed768b810c5efe5b75f72abc2'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"to_uid": "dqy0705", "group": 0, "type": 1, "time": "1599625942810", "data": "{'var1': 'is_text_type_02','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625942810_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "from_uid不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_03_sendMsg: 入参验证：to_uid字段缺失</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.3')" >
+        pass</a>
+
+    <div id='div_pt1.3' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.3').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.3: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625942854', 'sign': 'ffd30b8c73dffde7543a1922c7c9c4b2'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "group": 0, "type": 1, "time": "1599625942854", "data": "{'var1': 'is_text_type_03','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625942854_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "to_uid不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_04_sendMsg: 入参验证：group字段缺失</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.4')" >
+        pass</a>
+
+    <div id='div_pt1.4' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.4').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.4: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625942895', 'sign': '6025d6ddc44d8ecd13f2bdb27a7864d2'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "type": 1, "time": "1599625942895", "data": "{'var1': 'is_text_type_04','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625942895_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "group不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_05_sendMsg: 入参验证：type字段缺失</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.5')" >
+        pass</a>
+
+    <div id='div_pt1.5' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.5').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.5: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625942931', 'sign': '09b2cfcda05112a6dbe30d5d5ab34b99'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "time": "1599625942931", "data": "{'var1': 'is_text_type_05','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625942931_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "type不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_06_sendMsg: 入参验证：time字段缺失</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.6')" >
+        pass</a>
+
+    <div id='div_pt1.6' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.6').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.6: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625942970', 'sign': 'c45f70f1da2343f5fa1d3ae864f92600'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 1, "data": "{'var1': 'is_text_type_06','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625942970_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "time不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_07_sendMsg: 入参验证：data字段缺失</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.7')" >
+        pass</a>
+
+    <div id='div_pt1.7' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.7').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.7: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943016', 'sign': 'aee11d2323f5239eecc5335de0ed520a'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 1, "time": "1599625943016", "msg_id": "1599625943016_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "data不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_08_sendMsg: 入参验证：msg_id字段缺失</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.8')" >
+        pass</a>
+
+    <div id='div_pt1.8' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.8').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.8: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943062', 'sign': 'ca379e846b3fd3ea0bb9bca2d5d29fbd'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 1, "time": "1599625943062", "data": "{'var1': 'is_text_type_07','var2': '','var3': '','var4': '','var5': ''}"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "msg_id不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_09_sendMsg: 入参验证：msg_id字段为''</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.9')" >
+        pass</a>
+
+    <div id='div_pt1.9' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.9').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.9: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943113', 'sign': '5d78a6f1e3fdd6b8337ec41c0d78cc16'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 1, "time": "1599625943113", "data": "{'var1': 'is_text_type_07','var2': '','var3': '','var4': '','var5': ''}", "msg_id": ""}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "msg_id不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_A0_sendMsg: 入参验证：from_uid入参空''</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.10')" >
+        pass</a>
+
+    <div id='div_pt1.10' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.10').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.10: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943155', 'sign': '01f40d6062898cfc94cf341c24f546e8'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "", "to_uid": "dqy0705", "group": 0, "type": 1, "time": "1599625943155", "data": "{'var1': 'is_text_type_07','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625943155_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "from_uid不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_A1_sendMsg: 入参验证：to_uid入参空''</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.11')" >
+        pass</a>
+
+    <div id='div_pt1.11' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.11').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.11: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943201', 'sign': 'bfe050d6be9dbc4e4c0388732a08db20'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "", "group": 0, "type": 1, "time": "1599625943201", "data": "{'var1': 'is_text_type_08','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625943201_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "to_uid不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_A2_sendMsg: 入参验证：group入参空''</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.12')" >
+        pass</a>
+
+    <div id='div_pt1.12' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.12').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.12: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943242', 'sign': '63cca19565f2f4c749de4a09c63d1378'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": "", "type": 1, "time": "1599625943242", "data": "{'var1': 'is_text_type_09','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625943242_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "group不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='ft1.13' class='none'>
+    <td class='failCase'><div class='testcase'>test_A3_sendMsg: 入参验证：type入参空''</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft1.13')" >
+        fail</a>
+
+    <div id='div_ft1.13' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft1.13').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft1.13: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943280', 'sign': '39ce8393808f5fa8cd65a204ef7aee90'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": "", "time": "1599625943280", "data": "{'var1': 'is_text_type_10','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625943280_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "type只能是0至15之间的整数"
+}
+Traceback (most recent call last):
+  File "F:\PycharmProjects\Jenkins-runner\IMRoute-ApiTest\API_TEST\test_09_sendMsg.py", line 415, in test_A3_sendMsg
+    assert r.json()["msg"] == "type不能为空", r.json()['msg']
+AssertionError: type只能是0至15之间的整数
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_A4_sendMsg: 入参验证：time入参空''</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.14')" >
+        pass</a>
+
+    <div id='div_pt1.14' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.14').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.14: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943328', 'sign': '23977c91dfd27cef1eccb9026de52fed'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 1, "time": "", "data": "{'var1': 'is_text_type_11','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625943328_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "time不能为空"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_A5_sendMsg: 业务逻辑： type0：发送cmd消息</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.15')" >
+        pass</a>
+
+    <div id='div_pt1.15' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.15').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.15: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943375', 'sign': 'c7597d48a9d5931afec5094e66a37277'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 0, "time": "1599625943375", "data": "{'var1': 'is_cmd_type_01','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625943375_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "0",
+    "msg": "ok"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_A7_sendMsg: 业务逻辑： type2：发送image消息</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.16')" >
+        pass</a>
+
+    <div id='div_pt1.16' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.16').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.16: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943436', 'sign': '05fff857243da4bdad5caab408d1765a'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 2, "time": "1599625943436", "data": "{  \"var2\" : \"c2flL7IT8+RgyxzE4RxVc8nfGKFb5bcpjvavfXBt70jTk7wkPAUJi8fIQ9pu\\\\/5ofyAw57gT93h\\\\/2UaYokfjNug==\",  \"var5\" : \"\",  \"var3\" : \"image.jpeg\",  \"var1\" : \"c2flL7IT8+RgyxzE4RxVcxvt65d5fsKmAg8+VDZXLcuRYaK2NFem26iYDJZJrNMoyAw57gT93h\\\\/2UaYokfjNug==\",  \"var4\" : \"\"}", "msg_id": "1599625943436_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "0",
+    "msg": "ok"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_A8_sendMsg: 业务逻辑： type3：发送audio消息</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.17')" >
+        pass</a>
+
+    <div id='div_pt1.17' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.17').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.17: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943496', 'sign': '2ba8b3bbd007f07e7e8c342703563950'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 3, "time": "1599625943496", "data": "{  \"var2\" : \"1\",  \"var5\" : \"\",  \"var3\" : \"\",  \"var1\" : \"c2flL7IT8+RgyxzE4RxVc5lFM64IEXIfcgFYBA2WARLMeECeiuUW5hHLb09y5i\\\\/hbvW\\\\/U4zF+BaVmk\\\\/g5mD09A==\",  \"var4\" : \"\"}", "msg_id": "1599625943496_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "0",
+    "msg": "ok"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_A9_sendMsg: 业务逻辑： type4：发送video消息</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.18')" >
+        pass</a>
+
+    <div id='div_pt1.18' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.18').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.18: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943561', 'sign': '2edbf6621239d77610fdf38d3127b9ec'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 4, "time": "1599625943561", "data": "{  \"var2\" : \"c2flL7IT8+RgyxzE4RxVc6VjdXcWTBE02Nf1F0MRJB3NN4eSPsOZBBvnVZQ\\\\/RTBpyAw57gT93h\\\\/2UaYokfjNug==\",  \"var5\" : \"\",  \"var3\" : \"video.mp4.mp4\",  \"var1\" : \"c2flL7IT8+RgyxzE4RxVc38GRp2fepoHtiV9wJEfq6AW2kDB0RPMD1N9aMzE9T7aKPOu608vpr73\\\\/IDiN6AuGw==\",  \"var4\" : \"0\"}", "msg_id": "1599625943561_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "0",
+    "msg": "ok"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.19' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_B0_sendMsg: 业务逻辑： type5：发送file消息</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.19')" >
+        pass</a>
+
+    <div id='div_pt1.19' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.19').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.19: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943620', 'sign': '2356998670bd38190c4b65571811fc29'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 5, "time": "1599625943620", "data": "{  \"var2\" : \"c2flL7IT8+RgyxzE4RxVc6VjdXcWTBE02Nf1F0MRJB3NN4eSPsOZBBvnVZQ\\\\/RTBpyAw57gT93h\\\\/2UaYokfjNug==\",  \"var5\" : \"\",  \"var3\" : \"video.mp4.mp4\",  \"var1\" : \"c2flL7IT8+RgyxzE4RxVc38GRp2fepoHtiV9wJEfq6AW2kDB0RPMD1N9aMzE9T7aKPOu608vpr73\\\\/IDiN6AuGw==\",  \"var4\" : \"0\"}", "msg_id": "1599625943620_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "0",
+    "msg": "ok"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.20' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_B1_sendMsg: 业务逻辑： type6：发送position消息</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.20')" >
+        pass</a>
+
+    <div id='div_pt1.20' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.20').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.20: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943684', 'sign': '01059b416aa82a8aec16c585b8e18ae3'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 6, "time": "1599625943684", "data": "{  \"var2\" : \"120.3863338595745\",  \"var5\" : \"\",  \"var3\" : \"\u6c38\u5eb7\u8def3\u53f7\",  \"var1\" : \"36.1739649370593\",  \"var4\" : \"\"}", "msg_id": "1599625943684_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "0",
+    "msg": "ok"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.21' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_B2_sendMsg: 业务逻辑： type100：无效</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.21')" >
+        pass</a>
+
+    <div id='div_pt1.21' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.21').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.21: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943748', 'sign': '1c2d995f0a9a08489bdc2bd2ef03ad81'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "dqy0705", "group": 0, "type": 100, "time": "1599625943748", "data": "{  \"var2\" : \"120.3863338595745\",  \"var5\" : \"\",  \"var3\" : \"\u6c38\u5eb7\u8def3\u53f7\",  \"var1\" : \"36.1739649370593\",  \"var4\" : \"\"}", "msg_id": "1599625943748_dqy0701_dqy0705"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "type只能是0至15之间的整数"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.22' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_B3_sendMsg: 业务逻辑：发送群消息</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.22')" >
+        pass</a>
+
+    <div id='div_pt1.22' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.22').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.22: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943789', 'sign': '17619f469a2ecd344b1abca1e300c51c'}
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0701", "to_uid": "$7455be84f25511ea9564ecf4bbde9334", "group": 1, "type": 1, "time": "1599625943789", "data": "{'var1': 'is_test_type_group','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625943789_dqy0701_$7455be84f25511ea9564ecf4bbde9334"}
+&gt;&gt;&gt;返回： {
+    "code": "0",
+    "msg": "ok"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.23' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_B4_sendMsg: 业务逻辑：from_uid非群成员</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.23')" >
+        pass</a>
+
+    <div id='div_pt1.23' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.23').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.23: &gt;&gt;&gt;请求头： {'Content-Type': 'application/json', 'uid': 'dqy0701', 'timestamp': '1599625943843', 'sign': '9539c5442dac05d368d536eeb7a50aa0'}
+&gt;&gt;&gt;群成员：[{"uid":"dqy0701"},{"uid":"dqy0702"},{"uid":"dqy0703"},{"uid":"dqy0704"},{"uid":"dqy0705"},{"uid":"dqy0706"},{"uid":"dqy0707"},{"uid":"dqy0708"},{"uid":"dqy0709"}]
+&gt;&gt;&gt;请求地址： http://imbj01.tdweilai.com/chatMsg/send
+&gt;&gt;&gt;请求参数： {"from_uid": "dqy0002", "to_uid": "$7455be84f25511ea9564ecf4bbde9334", "group": 1, "type": 1, "time": "1599625943843", "data": "{'var1': 'is_test_type_group','var2': '','var3': '','var4': '','var5': ''}", "msg_id": "1599625943843_dqy0701_$7455be84f25511ea9564ecf4bbde9334"}
+&gt;&gt;&gt;返回： {
+    "code": "10000",
+    "msg": "from_uid is not in group"
+}
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='total_row'>
+    <td>Total</td>
+    <td>23</td>
+    <td class="text text-success">22</td>
+    <td class="text text-danger">1</td>
+    <td class="text text-warning">0</td>
+    <td>&nbsp;</td>
+</tr>
+</table>
+
+<div id='ending'>&nbsp;</div>
+
+    <script type="text/javascript">
+var data = [
+	{
+		value: 0,
+		color: "#ebccd1",
+		label: "Error",
+		labelColor: 'white',
+		labelFontSize: '16'
+	},
+	{
+		value : 1,
+		color : "#faebcc",
+		label: "Fail",
+		labelColor: 'white',
+		labelFontSize: '16'
+	},
+	{
+		value : 22,
+		color : "#d6e9c6",
+		label : "Pass",
+		labelColor: 'white',
+		labelFontSize: '16'
+	}			
+]
+
+var newopts = {
+     animationSteps: 100,
+ 		animationEasing: 'easeInOutQuart',
+}
+
+//Get the context of the canvas element we want to select
+var ctx = document.getElementById("myChart").getContext("2d");
+
+var myNewChart = new Chart(ctx).Pie(data,newopts);
+
+</script>
+	
+</body>
+</html>
